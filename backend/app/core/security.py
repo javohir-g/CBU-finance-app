@@ -22,9 +22,10 @@ def verify_telegram_init_data(init_data: str) -> Optional[Dict[str, Any]]:
         received_hash = parsed_data.pop('hash')
         
         # Sort keys and create data-check-string
+        # Telegram requires parameters to be sorted alphabetically
         data_check_string = "\n".join([f"{k}={v}" for k, v in sorted(parsed_data.items())])
         
-        # Create secret key from bot token
+        # Create secret key from bot token using HMAC-SHA256 with "WebAppData"
         secret_key = hmac.new(
             b"WebAppData",
             settings.TELEGRAM_BOT_TOKEN.encode(),
@@ -38,15 +39,20 @@ def verify_telegram_init_data(init_data: str) -> Optional[Dict[str, Any]]:
             hashlib.sha256
         ).hexdigest()
         
-        # Check signature
-        if computed_hash != received_hash:
+        # Check signature (case-insensitive for hex)
+        if computed_hash.lower() != received_hash.lower():
+            print("Hash mismatch")
             return None
             
-        # Extract user data
+        # Extract user data if present
+        user_data = {}
         if 'user' in parsed_data:
-            return json.loads(parsed_data['user'])
+            user_data = json.loads(parsed_data['user'])
+        else:
+            # Fallback for data without 'user' field
+            user_data = parsed_data
             
-        return parsed_data
+        return user_data
     except Exception as e:
         print(f"Verification error: {e}")
         return None
