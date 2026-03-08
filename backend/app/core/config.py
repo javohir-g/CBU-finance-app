@@ -12,6 +12,7 @@ class Settings(BaseSettings):
 
     # Telegram
     TELEGRAM_BOT_TOKEN: str = "8759802171:AAGq-PNZTrLT7VfpELhskq5y4oQZwhjDmmo"
+    WEBAPP_URL: str = "https://cbu-finance-app.onrender.com"  # Updated to production URL
     
     # Database
     DATABASE_URL: str = "sqlite:///./sql_app.db" # Default for MVP, can be overriden to PostgreSQL
