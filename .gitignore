@@ -1,6 +1,38 @@
 # Dependencies
 node_modules/
 .pnpm-store/
+venv/
+.venv/
+env/
+.env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Database
+*.db
+*.sqlite3
 
 # Env files
 .env
@@ -19,6 +51,9 @@ out/
 .idea/
 *.swp
 *.swo
+.project
+.pydevproject
+.settings/
 
 # OS files
 .DS_Store
@@ -31,3 +66,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# AI Instructions (Optional - keep local but not in repo)
+AI_DEVELOPMENT_RULES.md
+DEVELOPMENT_RULES.md
+CHEATSHEET.md
