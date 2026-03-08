@@ -133,12 +133,12 @@ npm run lint     # Проверка кода
 - **Tabler Icons** - Иконки
 - **Recharts** - Графики
 
-### Backend (Рекомендуемый стек)
-- **Node.js 18+** с Express/Fastify
-- **PostgreSQL 14+** - База данных
-- **Redis** - Кеширование
-- **Prisma/TypeORM** - ORM
+### Backend
+- **FastAPI** - Веб-фреймворк на Python
+- **SQLAlchemy** - ORM для работы с БД
+- **Pydantic** - Валидация данных
 - **JWT** - Аутентификация
+- **SQLite** - База данных (по умолчанию для MVP)
 
 ### Инфраструктура
 - **Docker** - Контейнеризация
@@ -151,21 +151,16 @@ npm run lint     # Проверка кода
 
 ```
 fintech-app/
-├── src/
-│   ├── app/
-│   │   ├── components/      # React компоненты
-│   │   ├── contexts/        # Context API (Language, Theme)
-│   │   ├── pages/           # 21 страница приложения
-│   │   ├── App.tsx          # Главный компонент
-│   │   └── routes.ts        # Конфигурация роутов
-│   ├── imports/             # Импорты из Figma
-│   ├── styles/              # CSS стили
-│   └── main.tsx             # Точка входа
-├── public/                  # Публичные файлы
-├── *.md                     # Документация
-├── package.json
-├── vite.config.ts
-└── tsconfig.json
+├── backend/                 # 🚀 FastAPI бэкенд
+│   ├── app/                 # Логика приложения
+│   ├── main.py              # Точка входа
+│   └── requirements.txt     # Зависимости
+├── frontend/                # 📱 React фронтенд (бывшая src)
+│   ├── src/                 # Исходный код фронтенда
+│   ├── package.json
+│   └── vite.config.ts
+├── render.yaml              # Конфигурация деплоя
+└── ...
 ```
 
 Полная структура: [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)
@@ -398,7 +393,27 @@ npm run test:coverage
 npm run build
 ```
 
-Файлы будут в директории `/dist`
+Файлы будут в директории `frontend/dist`
+
+### Backend Setup (FastAPI)
+
+```bash
+# Перейти в директорию
+cd backend
+
+# Создать виртуальное окружение
+python -m venv venv
+source venv/bin/activate  # или venv\Scripts\activate на Windows
+
+# Установить зависимости
+pip install -r requirements.txt
+
+# Запустить сервер
+uvicorn main:app --reload
+```
+
+Сервер будет доступен по адресу: `http://localhost:8000`
+Документация API (Swagger): `http://localhost:8000/docs`
 
 ### Preview
 
@@ -491,7 +506,10 @@ MIT License - см. файл [LICENSE](./LICENSE)
 
 [⬆ Наверх](#-финтех-мобильное-приложение---mvp)
 
-</div>#   C B U - f i n a n c e - a p p  
- #   C B U - f i n a n c e - a p p  
- #   C B U - f i n a n c e - a p p  
+</div>#   C B U - f i n a n c e - a p p 
+ 
+ #   C B U - f i n a n c e - a p p 
+ 
+ #   C B U - f i n a n c e - a p p 
+ 
  
