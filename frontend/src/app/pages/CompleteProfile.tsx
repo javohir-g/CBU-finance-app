@@ -39,9 +39,8 @@ export default function CompleteProfile() {
 
             // Update global context user (assuming token hasn't changed)
             if (user) {
-                // We get the token from localStorage directly to preserve it
                 const token = localStorage.getItem("auth_token") || "";
-                login(token, { ...user, phone: updatedUser.phone });
+                login(token, { ...user, phone: updatedUser.phone || phone });
             }
 
             navigate("/dashboard");

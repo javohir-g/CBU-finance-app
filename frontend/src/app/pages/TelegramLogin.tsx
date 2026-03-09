@@ -64,7 +64,8 @@ export default function TelegramLogin() {
         ? "Ошибка входа через Telegram. Убедитесь, что вы открыли приложение внутри Telegram."
         : "Telegram orqali kirishda xatolik. Ilovani Telegram ichida ochganingizga ishonch hosil qiling.";
 
-      alert(errorMessage);
+      const errorDetail = (error as any).response?.data?.detail || (error as any).message || String(error);
+      alert(`${errorMessage}\n\nDetails: ${errorDetail}`);
 
       // NO Fallback in real production for security, but keeping a dev one for your convenience
       if ((import.meta as any).env.DEV) {
