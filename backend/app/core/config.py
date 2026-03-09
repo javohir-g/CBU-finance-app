@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     WEBAPP_URL: str = "https://cbu-finance-frontend.onrender.com"  # Updated to match Render service name
     
     # Database
-    DATABASE_URL: str = "sqlite:///./sql_app.db" # Default for MVP, can be overriden to PostgreSQL
+    DATABASE_URL: str = "sqlite:///./sql_app.db"  # Override via env var in production
     
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = ["*"]

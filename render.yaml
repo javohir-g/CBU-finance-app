@@ -1,3 +1,9 @@
+databases:
+  - name: cbu-finance-db
+    databaseName: cbu_finance
+    user: cbu_finance_user
+    plan: free
+
 staticSites:
   - name: cbu-finance-frontend
     rootDir: frontend
@@ -26,7 +32,9 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        value: sqlite:///./sql_app.db
+        fromDatabase:
+          name: cbu-finance-db
+          property: connectionString
       - key: PYTHON_VERSION
         value: 3.11.6
       - key: WEBAPP_URL
