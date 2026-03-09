@@ -8,7 +8,7 @@ from app.api.endpoints.user import get_current_user
 
 router = APIRouter()
 
-@router.get("/", response_model=List[TransactionRead])
+@router.get("/")
 def get_transactions(
     category: Optional[str] = "all",
     date_filter: Optional[str] = "all",
@@ -22,8 +22,14 @@ def get_transactions(
     if category != "all":
         query = query.filter(Transaction.category == category)
     
-    # Simple limit/offset for now
-    return query.order_by(Transaction.created_at.desc()).offset(offset).limit(limit).all()
+    total = query.count()
+    transactions = query.order_by(Transaction.created_at.desc()).offset(offset).limit(limit).all()
+    
+    return {
+        "transactions": transactions,
+        "total": total,
+        "has_more": (offset + limit) < total
+    }
 
 @router.post("/", response_model=TransactionRead)
 def create_transaction(

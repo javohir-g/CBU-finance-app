@@ -49,8 +49,8 @@ export default function Dashboard() {
           transactionsService.getTransactions({ limit: 2 })
         ]);
 
-        setBalance(balanceData.totalBalance);
-        setRecentTransactions(transactionsData.transactions);
+        setBalance(balanceData?.totalBalance ?? 0);
+        setRecentTransactions(transactionsData?.transactions ?? []);
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
         // Fallback for demo if API fails
