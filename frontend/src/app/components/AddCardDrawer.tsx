@@ -7,7 +7,7 @@ import { IconX } from "@tabler/icons-react";
 interface AddCardDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddCard: (card: { cardholderName: string; cardNumber: string; balance: string }) => void;
+  onAddCard: (card: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string }) => void;
 }
 
 export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps) {
@@ -91,8 +91,10 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       initialBalance
     ) {
       onAddCard({
-        cardholderName,
-        cardNumber,
+        cardholder_name: cardholderName,
+        card_number: cardNumber.replace(/\s/g, ""),
+        expiry_date: expiryDate,
+        cvv: cvv,
         balance: initialBalance
       });
       // Reset form

@@ -34,7 +34,7 @@ def create_card(
         cardholder_name=card_in.cardholder_name,
         card_number=last_4,
         full_card_number=masked,
-        balance=1500.0, # Give some starting balance for demo
+        balance=card_in.balance or 0.0,
         currency="USD",
         card_type=card_type
     )

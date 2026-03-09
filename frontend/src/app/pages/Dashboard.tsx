@@ -40,26 +40,24 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   // Fetch dashboard data
+  const fetchDashboardData = async () => {
+    setIsLoading(true);
+    try {
+      const [balanceData, transactionsData] = await Promise.all([
+        userService.getBalance(),
+        transactionsService.getTransactions({ limit: 4 })
+      ]);
+
+      setBalance(balanceData?.totalBalance ?? 0);
+      setRecentTransactions(transactionsData?.transactions ?? []);
+    } catch (error) {
+      console.error("Failed to fetch dashboard data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      setIsLoading(true);
-      try {
-        const [balanceData, transactionsData] = await Promise.all([
-          userService.getBalance(),
-          transactionsService.getTransactions({ limit: 2 })
-        ]);
-
-        setBalance(balanceData?.totalBalance ?? 0);
-        setRecentTransactions(transactionsData?.transactions ?? []);
-      } catch (error) {
-        console.error("Failed to fetch dashboard data:", error);
-        // Fallback for demo if API fails
-        setBalance(28750.76);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchDashboardData();
   }, []);
 
@@ -361,6 +359,7 @@ export default function Dashboard() {
       <AddTransactionDrawer
         isOpen={isAddTransactionOpen}
         onClose={() => setIsAddTransactionOpen(false)}
+        onSuccess={fetchDashboardData}
         type={transactionType}
       />
     </div>

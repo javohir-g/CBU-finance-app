@@ -68,6 +68,7 @@ class CardCreate(BaseModel):
     card_number: str
     expiry_date: str
     cvv: str
+    balance: Optional[float] = 0.0
 
 # Transaction
 class TransactionBase(BaseModel):
@@ -88,3 +89,31 @@ class TransactionRead(TransactionBase):
 
 class TransactionCreate(TransactionBase):
     pass
+
+# Savings Goal
+class SavingsGoalBase(BaseModel):
+    name: str
+    target_amount: float
+    currency: str = "USD"
+    icon: Optional[str] = "car"
+    color: Optional[str] = "#7c3aed"
+    deadline: Optional[datetime] = None
+
+class SavingsGoalRead(SavingsGoalBase):
+    id: int
+    user_id: int
+    saved_amount: float
+    created_at: datetime
+    class Config:
+        from_attributes = True
+
+class SavingsGoalCreate(SavingsGoalBase):
+    pass
+
+class SavingsGoalUpdate(BaseModel):
+    name: Optional[str] = None
+    target_amount: Optional[float] = None
+    saved_amount: Optional[float] = None
+    icon: Optional[str] = None
+    color: Optional[str] = None
+    deadline: Optional[datetime] = None

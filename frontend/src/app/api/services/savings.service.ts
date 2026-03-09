@@ -9,7 +9,7 @@ export interface Goal {
     user_id: number;
     name: string;
     target_amount: number;
-    current_amount: number;
+    saved_amount: number;
     currency: string;
     deadline?: string;
     icon?: string;
@@ -34,7 +34,7 @@ export const savingsService = {
     /**
      * Create a new goal
      */
-    createGoal: async (data: Omit<Goal, "id" | "user_id" | "created_at" | "current_amount">): Promise<Goal> => {
+    createGoal: async (data: Omit<Goal, "id" | "user_id" | "created_at" | "saved_amount">): Promise<Goal> => {
         const response = await apiClient.post<Goal>("/savings/goals", data);
         return response.data;
     },

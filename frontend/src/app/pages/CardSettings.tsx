@@ -101,15 +101,14 @@ export default function CardSettings() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleAddCard = async (newCard: { cardholderName: string; cardNumber: string; balance: string }) => {
+  const handleAddCard = async (newCard: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string }) => {
     try {
       const addedCard = await cardsService.addCard({
-        name: newCard.cardholderName,
-        number: newCard.cardNumber,
-        type: "visa", // Default for now
-        expiry: "12/28",
-        currency: "USD",
-        is_main: false
+        cardholder_name: newCard.cardholder_name,
+        card_number: newCard.card_number,
+        expiry_date: newCard.expiry_date,
+        cvv: newCard.cvv,
+        balance: parseFloat(newCard.balance)
       });
       setCards([...cards, addedCard]);
     } catch (error) {

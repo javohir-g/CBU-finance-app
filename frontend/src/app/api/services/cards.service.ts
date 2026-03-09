@@ -39,7 +39,7 @@ export const cardsService = {
     /**
      * Add a new card
      */
-    addCard: async (data: Omit<Card, "id" | "user_id" | "status" | "created_at" | "balance">): Promise<Card> => {
+    addCard: async (data: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance?: number }): Promise<Card> => {
         const response = await apiClient.post<Card>("/cards", data);
         return response.data;
     },

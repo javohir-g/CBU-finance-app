@@ -101,7 +101,7 @@ export default function Savings() {
             ))
           ) : savingsGoals.length > 0 ? (
             savingsGoals.map((goal, index) => {
-              const progress = (goal.current_amount / goal.target_amount) * 100;
+              const progress = (goal.saved_amount / goal.target_amount) * 100;
               const Icon = iconMap[goal.icon || "car"] || IconCar;
               const bgColorStyle = { backgroundColor: `${goal.color || "#7c3aed"}1A` };
 
@@ -126,7 +126,7 @@ export default function Savings() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-xl" style={{ color: colors.text }}>${goal.current_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                      <p className="font-bold text-xl" style={{ color: colors.text }}>${goal.saved_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
                       <p className="text-xs" style={{ color: colors.textSecondary }}>{content[language].saved}</p>
                     </div>
                   </div>

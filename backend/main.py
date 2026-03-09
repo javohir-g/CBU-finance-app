@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import auth, user, cards, transactions, bot as bot_api
+from app.api.endpoints import auth, user, cards, transactions, savings, statistics, bot as bot_api
 from app.core.config import settings
 from app.db.session import engine
 from app.models import models
@@ -40,6 +40,8 @@ app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["aut
 app.include_router(user.router, prefix=f"{settings.API_V1_STR}/user", tags=["user"])
 app.include_router(cards.router, prefix=f"{settings.API_V1_STR}/cards", tags=["cards"])
 app.include_router(transactions.router, prefix=f"{settings.API_V1_STR}/transactions", tags=["transactions"])
+app.include_router(savings.router, prefix=f"{settings.API_V1_STR}/savings", tags=["savings"])
+app.include_router(statistics.router, prefix=f"{settings.API_V1_STR}/statistics", tags=["statistics"])
 app.include_router(bot_api.router, prefix=f"{settings.API_V1_STR}/bot", tags=["bot"])
 
 @app.get("/")
