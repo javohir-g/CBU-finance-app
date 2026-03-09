@@ -13,6 +13,7 @@ def login_telegram(request: TelegramLoginRequest, db: Session = Depends(get_db))
     user_data = verify_telegram_init_data(request.initData)
     
     if not user_data:
+        print(f"VERIFICATION FAILED for data: {request.initData[:50]}...")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Telegram data"

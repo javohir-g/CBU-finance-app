@@ -19,6 +19,10 @@ export default function TelegramLogin() {
     try {
       // Access Telegram WebApp API
       const tg = (window as any).Telegram?.WebApp;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+      }
       const initData = tg?.initData;
 
       if (!initData && (import.meta as any).env.PROD) {
