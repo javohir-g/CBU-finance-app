@@ -189,7 +189,7 @@ export default function CardSettings() {
                   {/* Bottom Section - Card Number */}
                   <div className="flex items-center gap-2">
                     <span className="text-white text-lg font-medium tracking-widest drop-shadow-lg">
-                      •••• •••• •••• {card.number.slice(-4)}
+                      •••• •••• •••• {(card.number || "").slice(-4)}
                     </span>
                   </div>
                 </div>
@@ -253,7 +253,7 @@ export default function CardSettings() {
                 <div className="flex items-center gap-2">
                   <span className="text-white text-lg font-medium tracking-widest drop-shadow-lg">
                     {showCardNumber ? (
-                      selectedCardData?.number.match(/.{1,4}/g)?.join(" ") || selectedCardData?.number
+                      (selectedCardData?.number || "0000 0000 0000 0000").match(/.{1,4}/g)?.join(" ")
                     ) : (
                       "•••• •••• •••• ••••"
                     )}

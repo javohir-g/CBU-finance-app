@@ -32,16 +32,30 @@ export const cardsService = {
      * Get all cards for current user
      */
     getCards: async (): Promise<CardsResponse> => {
-        const response = await apiClient.get<CardsResponse>("/cards");
-        return response.data;
+        const response = await apiClient.get<any>("/cards");
+        const cards = (response.data.cards || []).map((c: any) => ({
+            ...c,
+            name: c.cardholder_name || "Card",
+            number: c.card_number || "0000",
+            type: c.card_type || "visa",
+            status: c.is_locked ? "locked" : c.is_deactivated ? "deactivated" : "active"
+        }));
+        return { cards, total: response.data.total || 0 };
     },
 
     /**
      * Add a new card
      */
     addCard: async (data: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance?: number }): Promise<Card> => {
-        const response = await apiClient.post<Card>("/cards", data);
-        return response.data;
+        const response = await apiClient.post<any>("/cards", data);
+        const c = response.data;
+        return {
+            ...c,
+            name: c.cardholder_name || "Card",
+            number: c.card_number || "0000",
+            type: c.card_type || "visa",
+            status: c.is_locked ? "locked" : c.is_deactivated ? "deactivated" : "active"
+        };
     },
 
     /**
