@@ -4,13 +4,14 @@ from datetime import datetime
 
 # Auth
 class TelegramLoginRequest(BaseModel):
-    initData: str
+    colorScheme: str = "dark"
 
 class AuthUser(BaseModel):
     id: int
     name: str
     username: Optional[str] = None
     avatar: Optional[str] = None
+    phone: Optional[str] = None
 
 class AuthResponse(BaseModel):
     success: bool

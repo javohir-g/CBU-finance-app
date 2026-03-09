@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { IconX, IconUser, IconShield, IconInfoCircle, IconSettings, IconLogout, IconChevronRight, IconMoon, IconSun, IconLanguage } from "@tabler/icons-react";
-import imgImage128 from "figma:asset/d411d707e98eb5e36e5bc42f2e12a77a4c0e1edd.png";
+import { useAuth } from "../contexts/AuthContext";
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -14,6 +14,7 @@ export function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
   const navigate = useNavigate();
   const { language, setLanguage } = useLanguage();
   const { theme, setTheme, colors } = useTheme();
+  const { user } = useAuth();
 
   const content = {
     rus: {
@@ -128,14 +129,16 @@ export function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
             {/* Profile Info */}
             <div className="px-6 pt-2 pb-6 text-center">
               <div className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-[#7c3aed]/20 overflow-hidden">
-                <img 
-                  src={imgImage128} 
-                  alt="Profile" 
-                  className="w-full h-full object-cover" 
+                <img
+                  src={user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=random`}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-2xl font-bold mb-1" style={{ color: colors.text }}>{content[language].name}</h2>
-              <p className="text-sm" style={{ color: colors.textSecondary }}>{content[language].email}</p>
+              <h2 className="text-2xl font-bold mb-1" style={{ color: colors.text }}>{user?.name || content[language].name}</h2>
+              <p className="text-sm" style={{ color: colors.textSecondary }}>
+                {user?.phone ? user.phone : (user?.username ? `@${user.username}` : "")}
+              </p>
             </div>
 
             {/* Menu Items */}
@@ -149,7 +152,7 @@ export function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
                     style={{ backgroundColor: colors.cardBackground }}
                   >
                     <div className="flex items-center gap-3">
-                      <div 
+                      <div
                         className="w-11 h-11 rounded-full flex items-center justify-center"
                         style={{ backgroundColor: `${item.color}15` }}
                       >
@@ -172,12 +175,11 @@ export function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       onClick={() => setTheme("dark")}
-                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${
-                        theme === "dark"
-                          ? "bg-[#7c3aed] text-white"
-                          : ""
-                      }`}
-                      style={theme !== "dark" ? { backgroundColor: theme === "dark" ? colors.background : colors.cardBackground === "#ffffff" ? "#f5f7fa" : colors.background, color: colors.textSecondary } : {}}
+                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${theme === "dark"
+                        ? "bg-[#7c3aed] text-white"
+                        : ""
+                        }`}
+                      style={theme !== "dark" ? { backgroundColor: colors.cardBackground === "#ffffff" ? "#f5f7fa" : colors.background, color: colors.textSecondary } : {}}
                     >
                       <div className="flex items-center justify-center gap-2">
                         <IconMoon size={16} />
@@ -186,12 +188,11 @@ export function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
                     </button>
                     <button
                       onClick={() => setTheme("light")}
-                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${
-                        theme === "light"
-                          ? "bg-[#f59e0b] text-white"
-                          : ""
-                      }`}
-                      style={theme !== "light" ? { backgroundColor: theme === "dark" ? colors.background : colors.cardBackground === "#ffffff" ? "#f5f7fa" : colors.background, color: colors.textSecondary } : {}}
+                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${theme === "light"
+                        ? "bg-[#f59e0b] text-white"
+                        : ""
+                        }`}
+                      style={theme !== "light" ? { backgroundColor: colors.cardBackground === "#ffffff" ? "#f5f7fa" : colors.background, color: colors.textSecondary } : {}}
                     >
                       <div className="flex items-center justify-center gap-2">
                         <IconSun size={16} />
@@ -212,22 +213,20 @@ export function ProfileDrawer({ isOpen, onClose }: ProfileDrawerProps) {
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       onClick={() => handleLanguageChange("rus")}
-                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${
-                        language === "rus"
-                          ? "bg-[#22c55e] text-white"
-                          : ""
-                      }`}
+                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${language === "rus"
+                        ? "bg-[#22c55e] text-white"
+                        : ""
+                        }`}
                       style={language !== "rus" ? { backgroundColor: theme === "dark" ? colors.background : colors.cardBackground === "#ffffff" ? "#f5f7fa" : colors.background, color: colors.textSecondary } : {}}
                     >
                       {content[language].russian}
                     </button>
                     <button
                       onClick={() => handleLanguageChange("uzb")}
-                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${
-                        language === "uzb"
-                          ? "bg-[#22c55e] text-white"
-                          : ""
-                      }`}
+                      className={`py-2.5 px-4 rounded-full font-medium text-sm transition-all ${language === "uzb"
+                        ? "bg-[#22c55e] text-white"
+                        : ""
+                        }`}
                       style={language !== "uzb" ? { backgroundColor: theme === "dark" ? colors.background : colors.cardBackground === "#ffffff" ? "#f5f7fa" : colors.background, color: colors.textSecondary } : {}}
                     >
                       {content[language].uzbek}

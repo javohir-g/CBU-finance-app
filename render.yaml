@@ -1,8 +1,5 @@
-services:
-  # Frontend - Static Site
-  - type: web
-    name: cbu-finance-frontend
-    env: static
+staticSites:
+  - name: cbu-finance-frontend
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
@@ -16,7 +13,7 @@ services:
         source: /*
         destination: /index.html
 
-  # Backend - FastAPI Web Service
+services:
   - type: web
     name: cbu-finance-backend
     env: python
@@ -24,11 +21,13 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.6
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
         value: sqlite:///./sql_app.db
+      - key: PYTHON_VERSION
+        value: 3.11.6
+      - key: WEBAPP_URL
+        sync: false

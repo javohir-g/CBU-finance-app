@@ -21,6 +21,7 @@ class User(Base):
     name = Column(String)
     username = Column(String, nullable=True)
     avatar = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
     language = Column(String, default="rus")
     theme = Column(String, default="dark")
     created_at = Column(DateTime, default=datetime.utcnow)

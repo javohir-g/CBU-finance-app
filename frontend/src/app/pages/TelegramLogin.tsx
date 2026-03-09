@@ -24,6 +24,7 @@ export default function TelegramLogin() {
         tg.expand();
       }
       const initData = tg?.initData;
+      const colorScheme = tg?.colorScheme || "dark";
 
       if (!initData && (import.meta as any).env.PROD) {
         throw new Error("Telegram WebApp data not found");
@@ -34,7 +35,8 @@ export default function TelegramLogin() {
       // Prepare payload for backend - sending the raw initData string
       // The backend will verify it using our BOT_TOKEN
       const payload = {
-        initData: initData || "mock_init_data_for_dev"
+        initData: initData || "mock_init_data_for_dev",
+        colorScheme
       };
 
       // Call our backend
@@ -47,8 +49,12 @@ export default function TelegramLogin() {
         // If it's a new user, the state will be empty by default from backend
         // Clear any potential local state if necessary (though usually handled by backend)
 
-        // Navigate to dashboard
-        navigate("/dashboard");
+        // Navigate to dashboard or profile completion
+        if (response.user && !response.user.phone) {
+          navigate("/complete-profile");
+        } else {
+          navigate("/dashboard");
+        }
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -63,8 +69,8 @@ export default function TelegramLogin() {
       // NO Fallback in real production for security, but keeping a dev one for your convenience
       if ((import.meta as any).env.DEV) {
         console.warn("Dev fallback triggered");
-        login("mock_token", { id: 123, name: "Alexa", username: "alexa_user", avatar: "" });
-        navigate("/dashboard");
+        login("mock_token", { id: 123, name: "Alexa", username: "alexa_user", avatar: "", phone: undefined });
+        navigate("/complete-profile");
       }
     } finally {
       setIsLoggingIn(false);

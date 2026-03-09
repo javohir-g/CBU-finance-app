@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Onboarding from "./pages/Onboarding";
 import TelegramLogin from "./pages/TelegramLogin";
+import CompleteProfile from "./pages/CompleteProfile";
 import Dashboard from "./pages/Dashboard";
 import CardSettings from "./pages/CardSettings";
 import Security from "./pages/Security";
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     Component: TelegramLogin,
+  },
+  {
+    path: "/complete-profile",
+    Component: CompleteProfile,
   },
   {
     path: "/dashboard",
