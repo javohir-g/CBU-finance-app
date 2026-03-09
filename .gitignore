@@ -67,7 +67,16 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# AI Instructions (Optional - keep local but not in repo)
+# AI Instructions & Project Docs (keep local, not in repo)
 AI_DEVELOPMENT_RULES.md
 DEVELOPMENT_RULES.md
 CHEATSHEET.md
+APP_OVERVIEW.md
+ATTRIBUTIONS.md
+BACKEND_INTEGRATION.md
+DATABASE_SCHEMA.md
+DOCS_INDEX.md
+MVP_BACKEND_GUIDE.md
+PROJECT_STRUCTURE.md
+QUICK_START.md
+README.md
