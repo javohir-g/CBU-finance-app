@@ -8,9 +8,10 @@ from app.api.endpoints.user import get_current_user
 
 router = APIRouter()
 
-@router.get("/", response_model=List[CardRead])
+@router.get("/")
 def get_cards(current_user: User = Depends(get_current_user)):
-    return current_user.cards
+    cards = current_user.cards
+    return {"cards": cards, "total": len(cards)}
 
 @router.post("/", response_model=CardRead)
 def create_card(

@@ -28,7 +28,7 @@ export default function CardSettings() {
       setIsLoading(true);
       try {
         const response = await cardsService.getCards();
-        setCards(response.cards);
+        setCards(response?.cards ?? []);
       } catch (error) {
         console.error("Failed to fetch cards:", error);
         // Fallback for demo
