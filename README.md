@@ -65,5 +65,5 @@
 
 <div align="center">
   <h3>🏆 Сделано для инноваций. Сделано для пользователей.</h3>
-  <p>© 2025 CBU Finance Team</p>
+  <p>© 2025 Profound Vision Team</p>
 </div>
