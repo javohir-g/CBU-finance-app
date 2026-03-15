@@ -5,8 +5,8 @@ import { IconX, IconArrowRight, IconDeviceMobile, IconCreditCard, IconChevronDow
 import { useState, useEffect } from "react";
 import { cardsService, Card } from "../api/services/cards.service";
 import { transactionsService } from "../api/services/transactions.service";
-import imgUzcard from "../assets/uzcard.png";
-import imgHumo from "../assets/humo.png";
+import imgUzcard from "../../assets/uzcard.png";
+import imgHumo from "../../assets/humo.png";
 
 interface TransferDrawerProps {
   isOpen: boolean;
