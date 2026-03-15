@@ -4,13 +4,26 @@ import cardsImage from "figma:asset/32af9c1670a52b3056df2308ff1e4d2db63ddf15.png
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { IconLanguage } from "@tabler/icons-react";
+import { useAuth } from "../contexts/AuthContext";
+import { useEffect } from "react";
 
 export default function Onboarding() {
   const navigate = useNavigate();
   const { language, setLanguage } = useLanguage();
   const { colors } = useTheme();
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    const onboardingComplete = localStorage.getItem("onboarding_complete");
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    } else if (onboardingComplete) {
+      navigate('/login', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleStart = () => {
+    localStorage.setItem("onboarding_complete", "true");
     // Navigate to next page and pass selected language
     navigate('/login', { state: { language } });
   };

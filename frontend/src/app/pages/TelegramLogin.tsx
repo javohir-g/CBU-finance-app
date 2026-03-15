@@ -45,6 +45,9 @@ export default function TelegramLogin() {
       if (response.success) {
         // Save to global context
         login(response.token, response.user);
+        
+        // Mark onboarding as complete since they've reached login/dashboard
+        localStorage.setItem("onboarding_complete", "true");
 
         // If it's a new user, the state will be empty by default from backend
         // Clear any potential local state if necessary (though usually handled by backend)
