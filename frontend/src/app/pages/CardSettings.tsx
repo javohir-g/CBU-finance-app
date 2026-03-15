@@ -9,6 +9,11 @@ import { AddCardDrawer } from "../components/AddCardDrawer";
 import { IconArrowLeft, IconLock, IconCreditCard, IconShieldOff, IconCopy, IconCheck, IconEye, IconEyeOff, IconPlus } from "@tabler/icons-react";
 import imgUzcard from "figma:asset/Uzcard-01.png";
 import imgHumo from "figma:asset/Humo-01.jpg";
+import cardBlack from "../assets/card-black.png";
+import cardBlue from "../assets/card-blue.png";
+import cardGreen from "../assets/card-green.png";
+import cardRed from "../assets/card-red.png";
+import cardYellow from "../assets/card-yellow.png";
 import cardBg from "figma:asset/9d007835032269e072081ad973a5bb9d260a672c.png";
 
 export default function CardSettings() {
@@ -16,10 +21,14 @@ export default function CardSettings() {
   const { language } = useLanguage();
   const { colors } = useTheme();
 
-  const getCardLogo = (number: string) => {
+  const getCardLogo = (type: string, number: string = "") => {
+    if (type === "humo") return imgHumo;
+    if (type === "uzcard") return imgUzcard;
+    
+    // Fallback detection
     const cleanNumber = (number || "").replace(/\s/g, "");
-    if (cleanNumber.startsWith("8600")) return imgUzcard;
     if (cleanNumber.startsWith("9860")) return imgHumo;
+    if (cleanNumber.startsWith("8600")) return imgUzcard;
     return imgUzcard;
   };
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
@@ -109,19 +118,30 @@ export default function CardSettings() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleAddCard = async (newCard: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string; color: string }) => {
+  const handleAddCard = async (newCard: { cardholder_name: string; card_number: string; expiry_date: string; balance: string; color: string; card_bg: string }) => {
     try {
       const addedCard = await cardsService.addCard({
         cardholder_name: newCard.cardholder_name,
         card_number: newCard.card_number,
         expiry_date: newCard.expiry_date,
-        cvv: newCard.cvv,
         balance: parseFloat(newCard.balance),
-        color: newCard.color
+        color: newCard.color,
+        card_bg: newCard.card_bg
       });
       setCards([...cards, addedCard]);
     } catch (error) {
       console.error("Failed to add card:", error);
+    }
+  };
+
+  const getCardBg = (bgName?: string) => {
+    switch (bgName) {
+      case "black": return cardBlack;
+      case "blue": return cardBlue;
+      case "green": return cardGreen;
+      case "red": return cardRed;
+      case "yellow": return cardYellow;
+      default: return cardBlack;
     }
   };
 
@@ -173,11 +193,11 @@ export default function CardSettings() {
                 whileTap={{ scale: 0.98 }}
               >
                 {/* Card Background Image */}
-                <div className="absolute inset-0 bg-[#7c3aed]" style={{ backgroundColor: card.color || "#7c3aed" }}>
+                <div className="absolute inset-0 z-0">
                   <img
-                    src={cardBg}
+                    src={getCardBg(card.card_bg)}
                     alt="Card background"
-                    className="w-full h-full object-cover opacity-50"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
@@ -191,7 +211,7 @@ export default function CardSettings() {
                       </p>
                     </div>
                     <div className="w-12 h-12 flex-shrink-0">
-                      <img src={getCardLogo(card.number)} alt="Card type" className="w-full h-full object-contain drop-shadow-lg" />
+                      <img src={getCardLogo(card.type, card.number)} alt="Card type" className="w-full h-full object-contain drop-shadow-lg" />
                     </div>
                   </div>
 
@@ -236,11 +256,11 @@ export default function CardSettings() {
           >
             <div className="rounded-2xl shadow-lg relative overflow-hidden" style={{ aspectRatio: "1.586 / 1" }}>
               {/* Card Background Image */}
-              <div className="absolute inset-0 bg-[#7c3aed]" style={{ backgroundColor: selectedCardData?.color || "#7c3aed" }}>
+              <div className="absolute inset-0 z-0">
                 <img
-                  src={cardBg}
+                  src={getCardBg(selectedCardData?.card_bg)}
                   alt="Card background"
-                  className="w-full h-full object-cover opacity-50"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
@@ -254,7 +274,7 @@ export default function CardSettings() {
                     </p>
                   </div>
                   <div className="w-12 h-12 flex-shrink-0">
-                    <img src={getCardLogo(selectedCardData?.number || "")} alt="Card type" className="w-full h-full object-contain drop-shadow-lg" />
+                    <img src={getCardLogo(selectedCardData?.type || "uzcard", selectedCardData?.number || "")} alt="Card type" className="w-full h-full object-contain drop-shadow-lg" />
                   </div>
                 </div>
 

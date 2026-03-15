@@ -42,6 +42,7 @@ class Card(Base):
     balance = Column(Float, default=0.0)
     currency = Column(String, default="UZS")
     color = Column(String, nullable=True)
+    card_bg = Column(String, nullable=True)
     card_type = Column(String) # visa, mastercard, uzcard, humo
     is_locked = Column(Boolean, default=False)
     is_deactivated = Column(Boolean, default=False)

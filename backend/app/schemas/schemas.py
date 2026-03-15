@@ -54,6 +54,7 @@ class CardBase(BaseModel):
     currency: str = "UZS"
     card_type: str
     color: Optional[str] = None
+    card_bg: Optional[str] = None
 
 class CardRead(CardBase):
     id: int
@@ -68,9 +69,9 @@ class CardCreate(BaseModel):
     cardholder_name: str
     card_number: str
     expiry_date: str
-    cvv: str
     balance: Optional[float] = 0.0
     color: Optional[str] = None
+    card_bg: Optional[str] = None
 
 # Transaction
 class TransactionBase(BaseModel):

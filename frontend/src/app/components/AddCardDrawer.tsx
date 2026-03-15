@@ -5,11 +5,16 @@ import { useTheme } from "../contexts/ThemeContext";
 import { IconX, IconCheck } from "@tabler/icons-react";
 import imgUzcard from "figma:asset/Uzcard-01.png";
 import imgHumo from "figma:asset/Humo-01.jpg";
+import cardBlack from "../assets/card-black.png";
+import cardBlue from "../assets/card-blue.png";
+import cardGreen from "../assets/card-green.png";
+import cardRed from "../assets/card-red.png";
+import cardYellow from "../assets/card-yellow.png";
 
 interface AddCardDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddCard: (card: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string; color: string }) => void;
+  onAddCard: (card: { cardholder_name: string; card_number: string; expiry_date: string; balance: string; color: string; card_bg: string }) => void;
 }
 
 export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps) {
@@ -18,18 +23,17 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
   const [cardholderName, setCardholderName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
-  const [cvv, setCvv] = useState("");
   const [initialBalance, setInitialBalance] = useState("");
   const [selectedColor, setSelectedColor] = useState("#7c3aed");
+  const [selectedBg, setSelectedBg] = useState(cardBlack);
   const [errorMessage, setErrorMessage] = useState("");
 
   const cardDesigns = [
-    "#7c3aed", // Purple
-    "#22c55e", // Green
-    "#3b82f6", // Blue
-    "#f59e0b", // Orange
-    "#ef4444", // Red
-    "#000000", // Black
+    { color: "#1e1e1e", bg: cardBlack },
+    { color: "#1d4ed8", bg: cardBlue },
+    { color: "#047857", bg: cardGreen },
+    { color: "#b91c1c", bg: cardRed },
+    { color: "#b45309", bg: cardYellow },
   ];
 
   const getCardType = (number: string) => {
@@ -47,20 +51,17 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       cardholderName: "Имя держателя карты",
       cardNumber: "Номер карты",
       expiryDate: "Срок действия (ММ/ГГ)",
-      cvv: "CVV",
       initialBalance: "Начальный баланс",
       cancel: "Отмена",
       add: "Добавить",
       enterName: "Введите имя",
       enterCardNumber: "0000 0000 0000 0000",
       enterExpiry: "MM/YY",
-      enterCVV: "123",
       enterBalance: "0.00",
       chooseDesign: "Выбрать дизайн",
       errorPrefix: "Номер карты должен начинаться с 8600 или 9860",
       errorLength: "Номер карты должен содержать 16 цифр",
       errorExpiry: "Введите корректный срок действия (ММ/ГГ)",
-      errorCVV: "CVV должен содержать 3 цифры",
       errorName: "Введите имя держателя карты",
       errorBalance: "Введите начальный баланс"
     },
@@ -69,20 +70,17 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       cardholderName: "Karta egasi nomi",
       cardNumber: "Karta raqami",
       expiryDate: "Amal qilish muddati (OO/YY)",
-      cvv: "CVV",
       initialBalance: "Boshlang'ich balans",
       cancel: "Bekor qilish",
       add: "Qo'shish",
       enterName: "Nomini kiriting",
       enterCardNumber: "0000 0000 0000 0000",
       enterExpiry: "OO/YY",
-      enterCVV: "123",
       enterBalance: "0.00",
       chooseDesign: "Dizaynni tanlang",
       errorPrefix: "Karta raqami 8600 yoki 9860 bilan boshlanishi kerak",
       errorLength: "Karta raqami 16 ta raqamdan iborat bo'lishi kerak",
       errorExpiry: "Amal qilish muddatini to'g'ri kiriting (OO/YY)",
-      errorCVV: "CVV 3 ta raqam bo'lishi kerak",
       errorName: "Karta egasi ismini kiriting",
       errorBalance: "Boshlang'ich balansni kiriting"
     }
@@ -115,10 +113,6 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
 
   const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrorMessage("");
-    const value = e.target.value;
-    if (value.length <= 3 && /^\d*$/.test(value)) {
-      setCvv(value);
-    }
   };
 
   const isValidCard = () => {
@@ -128,7 +122,6 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       cleanNumber.length === 16 &&
       (cleanNumber.startsWith("8600") || cleanNumber.startsWith("9860")) &&
       expiryDate.length === 5 &&
-      cvv.length === 3 &&
       initialBalance
     );
   };
@@ -152,10 +145,6 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       setErrorMessage(content[language].errorExpiry);
       return;
     }
-    if (cvv.length !== 3) {
-      setErrorMessage(content[language].errorCVV);
-      return;
-    }
     if (!initialBalance) {
       setErrorMessage(content[language].errorBalance);
       return;
@@ -166,16 +155,16 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       cardholder_name: cardholderName,
       card_number: cleanNumber,
       expiry_date: expiryDate,
-      cvv: cvv,
       balance: initialBalance,
-      color: selectedColor
+      color: selectedColor,
+      card_bg: selectedBg === cardBlack ? "black" : (selectedBg === cardBlue ? "blue" : (selectedBg === cardGreen ? "green" : (selectedBg === cardRed ? "red" : "yellow")))
     });
     // Reset form
     setCardholderName("");
     setCardNumber("");
     setExpiryDate("");
-    setCvv("");
     setInitialBalance("");
+    setSelectedBg(cardBlack);
     onClose();
   };
 
@@ -222,23 +211,26 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
             <div className="px-6 py-6 space-y-5">
               {/* Card Preview */}
               <div 
-                className="w-full aspect-[1.586/1] rounded-2xl p-6 flex flex-col justify-between shadow-xl transition-colors duration-500"
-                style={{ backgroundColor: selectedColor }}
+                className="w-full aspect-[1.586/1] rounded-2xl p-6 flex flex-col justify-between shadow-xl transition-all duration-500 relative overflow-hidden"
               >
-                <div className="flex justify-between items-start">
-                  <div className="text-white/80 text-xs font-medium uppercase tracking-widest">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                  <img src={selectedBg} alt="Card Background" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex justify-between items-start relative z-10">
+                  <div className="text-white/80 text-xs font-medium uppercase tracking-widest drop-shadow-md">
                     {cardholderName || "CARDHOLDER NAME"}
                   </div>
                   <div className="h-8">
-                    {cardType === "uzcard" && <img src={imgUzcard} alt="Uzcard" className="h-full object-contain" />}
-                    {cardType === "humo" && <img src={imgHumo} alt="Humo" className="h-full object-contain" />}
+                    {cardType === "uzcard" && <img src={imgUzcard} alt="Uzcard" className="h-full object-contain drop-shadow-md" />}
+                    {cardType === "humo" && <img src={imgHumo} alt="Humo" className="h-full object-contain drop-shadow-md" />}
                   </div>
                 </div>
-                <div className="text-white text-xl font-medium tracking-[0.2em]">
+                <div className="text-white text-xl font-medium tracking-[0.2em] relative z-10 drop-shadow-md">
                   {cardNumber || "0000 0000 0000 0000"}
                 </div>
-                <div className="flex justify-between items-end">
-                  <div className="text-white/80 text-xs">
+                <div className="flex justify-between items-end relative z-10">
+                  <div className="text-white/80 text-xs drop-shadow-md">
                     EXP: {expiryDate || "MM/YY"}
                   </div>
                 </div>
@@ -250,17 +242,24 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                   {content[language].chooseDesign}
                 </label>
                 <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
-                  {cardDesigns.map(color => (
+                  {cardDesigns.map(design => (
                     <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center border-2 transition-transform active:scale-95"
+                      key={design.color}
+                      onClick={() => {
+                        setSelectedColor(design.color);
+                        setSelectedBg(design.bg);
+                      }}
+                      className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center border-2 transition-all active:scale-95 overflow-hidden"
                       style={{ 
-                        backgroundColor: color,
-                        borderColor: selectedColor === color ? colors.primary : 'transparent'
+                        borderColor: selectedColor === design.color ? colors.primary : 'transparent'
                       }}
                     >
-                      {selectedColor === color && <IconCheck size={18} className="text-white" />}
+                      <img src={design.bg} alt="design" className="w-full h-full object-cover" />
+                      {selectedColor === design.color && (
+                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                          <IconCheck size={18} className="text-white" />
+                        </div>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -313,42 +312,23 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                 </div>
               </div>
 
-              {/* Expiry and CVV */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
-                    {content[language].expiryDate}
-                  </label>
-                  <input
-                    type="text"
-                    value={expiryDate}
-                    onChange={handleExpiryChange}
-                    placeholder={content[language].enterExpiry}
-                    className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors"
-                    style={{
-                      backgroundColor: colors.cardBackground,
-                      color: colors.text,
-                      border: `1px solid ${colors.border}`
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
-                    {content[language].cvv}
-                  </label>
-                  <input
-                    type="text"
-                    value={cvv}
-                    onChange={handleCVVChange}
-                    placeholder={content[language].enterCVV}
-                    className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors"
-                    style={{
-                      backgroundColor: colors.cardBackground,
-                      color: colors.text,
-                      border: `1px solid ${colors.border}`
-                    }}
-                  />
-                </div>
+              {/* Expiry */}
+              <div>
+                <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
+                  {content[language].expiryDate}
+                </label>
+                <input
+                  type="text"
+                  value={expiryDate}
+                  onChange={handleExpiryChange}
+                  placeholder={content[language].enterExpiry}
+                  className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors"
+                  style={{
+                    backgroundColor: colors.cardBackground,
+                    color: colors.text,
+                    border: `1px solid ${colors.border}`
+                  }}
+                />
               </div>
 
               {/* Initial Balance */}
