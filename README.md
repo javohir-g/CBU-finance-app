@@ -196,10 +196,6 @@ Biz vazifada ko'rsatilgan talablarning 100% qismini bajardik:
 ---
 
 <div align="center">
-  <br/>
-  <h2>✨ Магия в каждой транзакции. Будущее уже здесь. ✨</h2>
-  <h2>✨ Har bir tranzaksiyada sehr. Kelajak mana shu yerda. ✨</h2>
-  <br/>
   <h3>🏆 Сделано для инноваций. Сделано для пользователей.</h3>
   <h3>🏆 Innovatsiyalar uchun. Foydalanuvchilar uchun.</h3>
   <p>© 2025 Profound Vision Team</p>
