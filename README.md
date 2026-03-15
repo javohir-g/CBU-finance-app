@@ -31,7 +31,6 @@ graph TD
 
 ---
 
----
 
 ## 🇷🇺 Russian
 
