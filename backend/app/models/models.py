@@ -80,6 +80,8 @@ class SavingsGoal(Base):
     icon = Column(String)
     color = Column(String)
     deadline = Column(DateTime, nullable=True)
+    partner_name = Column(String, nullable=True)
+    is_shared = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="savings_goals")

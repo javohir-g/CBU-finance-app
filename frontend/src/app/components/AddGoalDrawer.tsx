@@ -7,7 +7,7 @@ import { IconX, IconCar, IconPlane, IconHome, IconShoppingBag, IconBook, IconHea
 interface AddGoalDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddGoal: (goal: { name: string; amount: number; icon: string; color: string }) => void;
+  onAddGoal: (goal: { name: string; amount: number; icon: string; color: string; is_shared: boolean; partner_name?: string }) => void;
 }
 
 export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps) {
@@ -17,6 +17,8 @@ export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps
   const [goalAmount, setGoalAmount] = useState("");
   const [selectedIcon, setSelectedIcon] = useState("car");
   const [selectedColor, setSelectedColor] = useState("#ff4757");
+  const [isShared, setIsShared] = useState(false);
+  const [partnerName, setPartnerName] = useState("");
 
   const content = {
     rus: {
@@ -28,7 +30,10 @@ export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps
       cancel: "Отмена",
       add: "Добавить",
       enterName: "Введите название",
-      enterAmount: "Введите сумму"
+      enterAmount: "Введите сумму",
+      saveWithFriend: "Копить с другом",
+      partnerName: "Имя друга",
+      enterPartnerName: "Введите имя друга"
     },
     uzb: {
       title: "Yangi Maqsad",
@@ -39,7 +44,10 @@ export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps
       cancel: "Bekor qilish",
       add: "Qo'shish",
       enterName: "Nomini kiriting",
-      enterAmount: "Summani kiriting"
+      enterAmount: "Summani kiriting",
+      saveWithFriend: "Do'st bilan jamg'arish",
+      partnerName: "Do'stingiz ismi",
+      enterPartnerName: "Do'stingiz ismini kiriting"
     }
   };
 
@@ -71,13 +79,17 @@ export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps
         name: goalName,
         amount: parseFloat(goalAmount),
         icon: selectedIcon,
-        color: selectedColor
+        color: selectedColor,
+        is_shared: isShared,
+        partner_name: isShared ? partnerName : undefined
       });
       // Reset form
       setGoalName("");
       setGoalAmount("");
       setSelectedIcon("car");
       setSelectedColor("#ff4757");
+      setIsShared(false);
+      setPartnerName("");
       onClose();
     }
   };
@@ -163,6 +175,50 @@ export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 font-semibold" style={{ color: colors.textSecondary }}>som</span>
                 </div>
               </div>
+
+              {/* Save with Friend Toggle */}
+              <div className="flex items-center justify-between p-4 rounded-2xl" style={{ backgroundColor: colors.cardBackground }}>
+                 <div>
+                    <p className="font-semibold text-sm" style={{ color: colors.text }}>{content[language].saveWithFriend}</p>
+                 </div>
+                 <button 
+                  onClick={() => setIsShared(!isShared)}
+                  className={`w-12 h-6 rounded-full relative transition-colors ${isShared ? 'bg-[#7c3aed]' : 'bg-gray-300'}`}
+                 >
+                    <motion.div 
+                      className="absolute top-1 left-1 w-4 h-4 rounded-full bg-white shadow-sm"
+                      animate={{ x: isShared ? 24 : 0 }}
+                    />
+                 </button>
+              </div>
+
+              {/* Partner Name Input (Conditional) */}
+              <AnimatePresence>
+                {isShared && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
+                      {content[language].partnerName}
+                    </label>
+                    <input
+                      type="text"
+                      value={partnerName}
+                      onChange={(e) => setPartnerName(e.target.value)}
+                      placeholder={content[language].enterPartnerName}
+                      className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors"
+                      style={{
+                        backgroundColor: colors.cardBackground,
+                        color: colors.text,
+                        border: `1px solid ${colors.border}`
+                      }}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Select Icon */}
               <div>

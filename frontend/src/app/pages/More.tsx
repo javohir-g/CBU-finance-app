@@ -13,7 +13,8 @@ import {
   IconHeart,
   IconFileText,
   IconAlertTriangle,
-  IconBus
+  IconBus,
+  IconUserPlus
 } from "@tabler/icons-react";
 
 export default function More() {
@@ -34,7 +35,9 @@ export default function More() {
       charity: "Благотворительность",
       govServices: "Справки и госуслуги",
       finesMIB: "Штрафы MIB",
-      transport: "Метро и автобус"
+      transport: "Метро и автобус",
+      transfer: "Перевод",
+      inviteFriend: "Позвать друга"
     },
     uzb: {
       title: "Yana",
@@ -48,7 +51,9 @@ export default function More() {
       charity: "Xayriya",
       govServices: "Ma'lumotnomalar va davlat xizmatlari",
       finesMIB: "Jarimalar MIB",
-      transport: "Metro va avtobus"
+      transport: "Metro va avtobus",
+      transfer: "O'tkazma",
+      inviteFriend: "Do'stni taklif qilish"
     }
   };
 
@@ -96,10 +101,10 @@ export default function More() {
     {
       id: 6,
       icon: IconArrowsExchange,
-      label: content[language].conversion,
+      label: content[language].transfer,
       color: "#14b8a6",
       bgColor: "#14b8a615",
-      path: "/conversion"
+      path: "/transfer"
     },
     {
       id: 7,
@@ -132,6 +137,14 @@ export default function More() {
       color: "#06b6d4",
       bgColor: "#06b6d415",
       path: "/transport"
+    },
+    {
+      id: 11,
+      icon: IconUserPlus,
+      label: content[language].inviteFriend,
+      color: "#7c3aed",
+      bgColor: "#7c3aed15",
+      path: "/invite-friend"
     }
   ];
 

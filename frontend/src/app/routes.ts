@@ -12,6 +12,8 @@ import About from "./pages/About";
 import Transactions from "./pages/Transactions";
 import Statistics from "./pages/Statistics";
 import ExchangeRate from "./pages/ExchangeRate";
+import InviteFriend from "./pages/InviteFriend";
+import Transfer from "./pages/Transfer";
 import MyHome from "./pages/MyHome";
 import MyCar from "./pages/MyCar";
 import OrderCard from "./pages/OrderCard";
@@ -97,7 +99,15 @@ export const router = createBrowserRouter([
   },
   {
     path: "/conversion",
-    Component: Conversion,
+    Component: Transfer,
+  },
+  {
+    path: "/transfer",
+    Component: Transfer,
+  },
+  {
+    path: "/invite-friend",
+    Component: InviteFriend,
   },
   {
     path: "/charity",

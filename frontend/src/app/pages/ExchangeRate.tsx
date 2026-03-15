@@ -5,14 +5,14 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { exchangeService, ExchangeRate as IExchangeRate } from "../api/services/exchange.service";
 import { BottomNav } from "../components/BottomNav";
-import { IconArrowLeft, IconTrendingUp, IconTrendingDown } from "@tabler/icons-react";
+import { IconArrowLeft, IconTrendingUp, IconTrendingDown, IconCalendar } from "@tabler/icons-react";
 
 export default function ExchangeRate() {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const { colors } = useTheme();
-  const [selectedTab, setSelectedTab] = useState<"buy" | "sell">("buy");
   const [rates, setRates] = useState<IExchangeRate[]>([]);
+  const [lastUpdate, setLastUpdate] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,6 +21,7 @@ export default function ExchangeRate() {
       try {
         const response = await exchangeService.getRates();
         setRates(response.rates);
+        setLastUpdate(response.date);
       } catch (error) {
         console.error("Failed to fetch rates:", error);
       } finally {
@@ -32,20 +33,20 @@ export default function ExchangeRate() {
 
   const content = {
     rus: {
-      title: "Курс валют",
-      buy: "Покупка",
-      sell: "Продажа",
+      title: "Курс валют ЦБ РУз",
+      lastUpdate: "Обновлено на",
+      officialRate: "Официальный курс",
       currency: "Валюта",
       rate: "Курс",
-      change: "Изменение"
+      change: "Изм."
     },
     uzb: {
-      title: "Valyuta kursi",
-      buy: "Sotib olish",
-      sell: "Sotish",
+      title: "O'zR MB Valyuta kursi",
+      lastUpdate: "Yangilangan sana",
+      officialRate: "Rasmiy kurs",
       currency: "Valyuta",
       rate: "Kurs",
-      change: "O'zgarish"
+      change: "O'zg."
     }
   };
 
@@ -67,7 +68,6 @@ export default function ExchangeRate() {
         className="flex items-center justify-between px-[20px] py-[15px]"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
       >
         <button
           onClick={() => navigate(-1)}
@@ -80,99 +80,68 @@ export default function ExchangeRate() {
         <div className="w-11" />
       </motion.div>
 
-      {/* Tabs */}
-      <motion.div
-        className="px-6 mt-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
+      {/* Date info */}
+      <motion.div 
+        className="px-6 mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
       >
-        <div className="flex gap-2 p-1 rounded-full" style={{ backgroundColor: colors.cardBackground }}>
-          <button
-            onClick={() => setSelectedTab("buy")}
-            className="flex-1 py-3 rounded-full font-semibold text-sm transition-all"
-            style={{
-              backgroundColor: selectedTab === "buy" ? "#7c3aed" : "transparent",
-              color: selectedTab === "buy" ? "#ffffff" : colors.text
-            }}
-          >
-            {content[language].buy}
-          </button>
-          <button
-            onClick={() => setSelectedTab("sell")}
-            className="flex-1 py-3 rounded-full font-semibold text-sm transition-all"
-            style={{
-              backgroundColor: selectedTab === "sell" ? "#7c3aed" : "transparent",
-              color: selectedTab === "sell" ? "#ffffff" : colors.text
-            }}
-          >
-            {content[language].sell}
-          </button>
+        <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-[#7c3aed]/10 border border-[#7c3aed]/10">
+            <IconCalendar size={18} className="text-[#7c3aed]" />
+            <p className="text-sm font-medium" style={{ color: colors.textSecondary }}>
+                {content[language].lastUpdate}: <span className="text-[#7c3aed]">{lastUpdate}</span>
+            </p>
         </div>
       </motion.div>
 
       {/* Currency List */}
-      <motion.div
-        className="px-6 mt-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.2 }}
-      >
-        <div className="space-y-2">
+      <div className="px-6 space-y-3">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="animate-pulse h-20 rounded-full w-full" style={{ backgroundColor: colors.cardBackground }}></div>
+              <div key={i} className="animate-pulse h-20 rounded-[28px] w-full" style={{ backgroundColor: colors.cardBackground }}></div>
             ))
           ) : rates.length > 0 ? (
             rates.map((currency, index) => {
-              const buyRate = currency.rate;
-              const sellRate = currency.rate + 100; // Mock spread for demo if not provided by API
-              const rateDisplay = selectedTab === "buy" ? buyRate : sellRate;
+              const isUp = currency.diff >= 0;
 
               return (
                 <motion.div
                   key={currency.code}
-                  className="rounded-full p-4 flex items-center justify-between"
+                  className="rounded-[28px] p-5 flex items-center justify-between group transition-all"
                   style={{ backgroundColor: colors.cardBackground }}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="text-3xl">{flagMap[currency.code] || "🏳️"}</div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-4xl drop-shadow-sm group-hover:scale-110 transition-transform">
+                        {flagMap[currency.code] || "🏳️"}
+                    </div>
                     <div>
-                      <p className="font-bold text-base" style={{ color: colors.text }}>{currency.code}</p>
-                      <p className="text-xs" style={{ color: colors.textSecondary }}>{currency.name}</p>
+                      <p className="font-bold text-lg" style={{ color: colors.text }}>{currency.code}</p>
+                      <p className="text-[10px] uppercase font-bold tracking-wider opacity-40" style={{ color: colors.textSecondary }}>
+                          {currency.name}
+                      </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-lg" style={{ color: colors.text }}>
-                      {rateDisplay.toLocaleString()} UZS
+                    <p className="font-bold text-xl tracking-tight" style={{ color: colors.text }}>
+                      {currency.rate.toLocaleString()} UZS
                     </p>
-                    <div className="flex items-center gap-1 justify-end">
-                      {currency.diff >= 0 ? (
-                        <IconTrendingUp size={14} className="text-[#22c55e]" />
-                      ) : (
-                        <IconTrendingDown size={14} className="text-[#ff4757]" />
-                      )}
-                      <p
-                        className="text-xs font-semibold"
-                        style={{ color: currency.diff >= 0 ? "#22c55e" : "#ff4757" }}
-                      >
-                        {currency.diff >= 0 ? "+" : ""}{currency.diff}%
-                      </p>
+                    <div className={`flex items-center gap-1 justify-end font-bold text-xs mt-1 ${isUp ? 'text-green-500' : 'text-red-500'}`}>
+                      {isUp ? <IconTrendingUp size={14} /> : <IconTrendingDown size={14} />}
+                      <span>{Math.abs(currency.diff).toLocaleString()}</span>
                     </div>
                   </div>
                 </motion.div>
               );
             })
           ) : (
-            <div className="text-center py-10" style={{ color: colors.textSecondary }}>
+            <div className="text-center py-20 opacity-40" style={{ color: colors.textSecondary }}>
               No rates available
             </div>
           )}
-        </div>
-      </motion.div>
+      </div>
 
       <BottomNav />
     </div>

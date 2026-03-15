@@ -14,6 +14,8 @@ export interface Goal {
     deadline?: string;
     icon?: string;
     color?: string;
+    is_shared?: boolean;
+    partner_name?: string;
     created_at: string;
 }
 
@@ -34,7 +36,7 @@ export const savingsService = {
     /**
      * Create a new goal
      */
-    createGoal: async (data: Omit<Goal, "id" | "user_id" | "created_at" | "saved_amount">): Promise<Goal> => {
+    createGoal: async (data: Omit<Goal, "id" | "user_id" | "created_at" | "saved_amount"> & { partner_name?: string; is_shared?: boolean }): Promise<Goal> => {
         const response = await apiClient.post<Goal>("/savings/goals", data);
         return response.data;
     },

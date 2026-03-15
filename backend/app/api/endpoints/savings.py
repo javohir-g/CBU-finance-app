@@ -29,7 +29,9 @@ def create_goal(
         saved_amount=0.0,
         icon=goal_in.icon,
         color=goal_in.color,
-        deadline=goal_in.deadline
+        deadline=goal_in.deadline,
+        partner_name=goal_in.partner_name,
+        is_shared=goal_in.is_shared
     )
     db.add(new_goal)
     db.commit()

@@ -108,6 +108,8 @@ class SavingsGoalBase(BaseModel):
     icon: Optional[str] = "car"
     color: Optional[str] = "#7c3aed"
     deadline: Optional[datetime] = None
+    partner_name: Optional[str] = None
+    is_shared: bool = False
 
 class SavingsGoalRead(SavingsGoalBase):
     id: int

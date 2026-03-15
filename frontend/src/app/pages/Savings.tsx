@@ -14,7 +14,7 @@ export default function Savings() {
   const [isAddGoalOpen, setIsAddGoalOpen] = useState(false);
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<{ id: number; name: string } | null>(null);
-  const [savingsGoals, setSavingsGoals] = useState<Goal[]>([]);
+  const [savingsGoals, setSavingsGoals] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const content = {
@@ -130,7 +130,16 @@ export default function Savings() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg" style={{ color: colors.text }}>{goal.name}</h3>
-                        <p className="text-xs" style={{ color: colors.textSecondary }}>{Math.round(progress)}%</p>
+                        <div className="flex items-center gap-1.5">
+                           <p className="text-xs" style={{ color: colors.textSecondary }}>{Math.round(progress)}%</p>
+                           {goal.is_shared && (
+                             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#7c3aed]/10 border border-[#7c3aed]/10">
+                                <span className="text-[9px] font-bold text-[#7c3aed] uppercase tracking-wider">
+                                   Partner: {goal.partner_name || 'Friend'}
+                                </span>
+                             </div>
+                           )}
+                        </div>
                       </div>
                     </div>
                     <div className="text-right">

@@ -212,19 +212,7 @@ export default function Dashboard() {
             <span className="text-[15px] font-semibold" style={{ color: colors.text }}>{content[language].expense}</span>
           </button>
 
-          {/* Transfer */}
-          <button
-            onClick={() => setIsTransferOpen(true)}
-            className="flex-1 flex items-center gap-3 rounded-full transition-colors p-[10px]"
-            style={{ backgroundColor: colors.cardBackground }}
-          >
-            <div className="w-12 h-12 rounded-full bg-[#7c3aed]/10 flex items-center justify-center flex-shrink-0">
-              <IconArrowsExchange size={20} className="text-[#7c3aed]" />
-            </div>
-            <span className="text-[15px] font-semibold" style={{ color: colors.text }}>
-              {language === "rus" ? "Перевод" : "O'tkazma"}
-            </span>
-          </button>
+
 
           {/* Income */}
           <button
