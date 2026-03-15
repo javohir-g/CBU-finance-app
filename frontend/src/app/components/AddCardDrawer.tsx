@@ -5,11 +5,11 @@ import { useTheme } from "../contexts/ThemeContext";
 import { IconX, IconCheck } from "@tabler/icons-react";
 import imgUzcard from "figma:asset/Uzcard-01.png";
 import imgHumo from "figma:asset/Humo-01.jpg";
-import cardBlack from "../assets/card-black.png";
-import cardBlue from "../assets/card-blue.png";
-import cardGreen from "../assets/card-green.png";
-import cardRed from "../assets/card-red.png";
-import cardYellow from "../assets/card-yellow.png";
+import cardBlack from "../../assets/card-black.png";
+import cardBlue from "../../assets/card-blue.png";
+import cardGreen from "../../assets/card-green.png";
+import cardRed from "../../assets/card-red.png";
+import cardYellow from "../../assets/card-yellow.png";
 
 interface AddCardDrawerProps {
   isOpen: boolean;
