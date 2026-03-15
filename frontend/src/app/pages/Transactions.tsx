@@ -277,7 +277,7 @@ export default function Transactions() {
                   </div>
                   <div className="flex items-center gap-2.5">
                     <p className="font-bold text-base" style={{ color: colors.text }}>
-                      {transaction.currency === "USD" ? "$" : ""}{transaction.amount.toFixed(2)}
+                      {transaction.amount.toLocaleString()} som
                     </p>
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center ${transaction.type === 'received'

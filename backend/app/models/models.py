@@ -8,6 +8,7 @@ class CardType(str, enum.Enum):
     visa = "visa"
     mastercard = "mastercard"
     uzcard = "uzcard"
+    humo = "humo"
 
 class TransactionType(str, enum.Enum):
     received = "received"
@@ -39,8 +40,9 @@ class Card(Base):
     card_number = Column(String)  # Last 4
     full_card_number = Column(String) # Masked
     balance = Column(Float, default=0.0)
-    currency = Column(String, default="USD")
-    card_type = Column(String) # visa, mastercard, uzcard
+    currency = Column(String, default="UZS")
+    color = Column(String, nullable=True)
+    card_type = Column(String) # visa, mastercard, uzcard, humo
     is_locked = Column(Boolean, default=False)
     is_deactivated = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)

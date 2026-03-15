@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.db.session import get_db
-from app.models.models import SavingsGoal, User
+from app.models.models import SavingsGoal, User, Card, Transaction
 from app.schemas.schemas import SavingsGoalRead, SavingsGoalCreate, SavingsGoalUpdate
 from app.api.endpoints.user import get_current_user
 
@@ -48,6 +48,31 @@ def add_money_to_goal(
         raise HTTPException(status_code=404, detail="Goal not found")
     
     amount = amount_data.get("amount", 0)
+    card_id = amount_data.get("card_id")
+    
+    if card_id:
+        card = db.query(Card).filter(Card.id == card_id, Card.user_id == current_user.id).first()
+        if not card:
+            raise HTTPException(status_code=404, detail="Card not found")
+        if card.balance < amount:
+            raise HTTPException(status_code=400, detail="Insufficient funds on card")
+        
+        card.balance -= amount
+        db.add(card)
+        
+        # Create a transaction record for this
+        new_trans = Transaction(
+            user_id=current_user.id,
+            card_id=card_id,
+            type="sent",
+            category="Savings",
+            amount=amount,
+            currency=card.currency,
+            recipient_name=f"Savings: {goal.name}",
+            description=f"Top up goal: {goal.name}"
+        )
+        db.add(new_trans)
+    
     goal.saved_amount += amount
     db.commit()
     db.refresh(goal)

@@ -5,7 +5,8 @@ import { IconX, IconCreditCard, IconShoppingCart, IconCar, IconHome, IconDevices
 import { useState, useEffect } from "react";
 import { cardsService, Card } from "../api/services/cards.service";
 import { transactionsService, CategoryType } from "../api/services/transactions.service";
-import imgMastercard from "figma:asset/83237b3cdb68e203187a53755f13a5e2c808b401.png";
+import imgUzcard from "figma:asset/Uzcard-01.png";
+import imgHumo from "figma:asset/Humo-01.jpg";
 
 interface AddTransactionDrawerProps {
   isOpen: boolean;
@@ -45,6 +46,13 @@ export function AddTransactionDrawer({ isOpen, onClose, onSuccess, type }: AddTr
           setIsLoadingCards(false);
         }
       };
+      
+      const getCardLogo = (num: string) => {
+        if (num.startsWith("8600")) return imgUzcard;
+        if (num.startsWith("9860")) return imgHumo;
+        return imgUzcard;
+      };
+
       fetchCards();
     }
   }, [isOpen]);
@@ -159,7 +167,7 @@ export function AddTransactionDrawer({ isOpen, onClose, onSuccess, type }: AddTr
         type: type === "expense" ? "sent" : "received",
         category: selectedCategory as CategoryType,
         amount: parseFloat(amount),
-        currency: "USD", // Default
+        currency: "UZS",
         recipient_name: recipient || (type === "expense" ? "Transfer" : "Income"),
         description: description
       });
@@ -221,13 +229,13 @@ export function AddTransactionDrawer({ isOpen, onClose, onSuccess, type }: AddTr
               <div className="mb-6">
                 <label className="text-sm mb-2 block" style={{ color: colors.textSecondary }}>{content[language].amount}</label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold" style={{ color: colors.text }}>$</span>
+                  <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-bold" style={{ color: colors.textSecondary }}>som</span>
                   <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder={content[language].amountPlaceholder}
-                    className="w-full rounded-full px-12 py-4 text-2xl font-bold placeholder:opacity-20 focus:outline-none focus:ring-2 focus:ring-[#7c3aed]"
+                    className="w-full rounded-full px-6 py-4 text-2xl font-bold placeholder:opacity-20 focus:outline-none focus:ring-2 focus:ring-[#7c3aed]"
                     style={{
                       backgroundColor: colors.cardBackground,
                       color: colors.text,
@@ -257,15 +265,15 @@ export function AddTransactionDrawer({ isOpen, onClose, onSuccess, type }: AddTr
                         whileTap={{ scale: 0.98 }}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-[#7c3aed] to-[#9d5afd] rounded-full flex items-center justify-center">
-                            <img src={imgMastercard} alt="" className="w-7 h-7 object-contain" />
+                          <div className="w-12 h-12 bg-gradient-to-br from-[#7c3aed] to-[#9d5afd] rounded-full flex items-center justify-center overflow-hidden">
+                            <img src={card.number.startsWith("8600") ? imgUzcard : (card.number.startsWith("9860") ? imgHumo : imgUzcard)} alt="" className="w-8 h-8 object-contain" />
                           </div>
                           <div className="text-left">
                             <p className="font-semibold text-sm" style={{ color: colors.text }}>{card.name}</p>
                             <p className="text-xs" style={{ color: colors.textSecondary }}>•••• {card.number}</p>
                           </div>
                         </div>
-                        <p className="font-bold text-base" style={{ color: colors.text }}>${card.balance.toLocaleString()}</p>
+                        <p className="font-bold text-base" style={{ color: colors.text }}>{card.balance.toLocaleString()} som</p>
                       </motion.button>
                     ))
                   ) : (

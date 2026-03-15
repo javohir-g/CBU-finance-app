@@ -9,6 +9,7 @@ import { BottomNav } from "../components/BottomNav";
 import { ProfileDrawer } from "../components/ProfileDrawer";
 import { NotificationsDrawer } from "../components/NotificationsDrawer";
 import { AddTransactionDrawer } from "../components/AddTransactionDrawer";
+import { TransferDrawer } from "../components/TransferDrawer";
 import {
   IconEye,
   IconEyeOff,
@@ -17,7 +18,8 @@ import {
   IconMinus,
   IconCurrencyDollar,
   IconHome,
-  IconCar
+  IconCar,
+  IconArrowsExchange
 } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 
@@ -30,6 +32,7 @@ export default function Dashboard() {
 
   // State management
   const [isAddTransactionOpen, setIsAddTransactionOpen] = useState(false);
+  const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [showBalance, setShowBalance] = useState(true);
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -169,7 +172,7 @@ export default function Dashboard() {
 
             <div className="flex items-center justify-center gap-3">
               <p className="text-white text-4xl font-bold tracking-tight">
-                {showBalance ? `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '••••••'}
+                {showBalance ? `${balance.toLocaleString('ru-RU')} som` : '••••••'}
               </p>
               <button
                 onClick={() => setShowBalance(!showBalance)}
@@ -207,6 +210,20 @@ export default function Dashboard() {
               <IconMinus size={20} className="text-[#ff4757]" />
             </div>
             <span className="text-[15px] font-semibold" style={{ color: colors.text }}>{content[language].expense}</span>
+          </button>
+
+          {/* Transfer */}
+          <button
+            onClick={() => setIsTransferOpen(true)}
+            className="flex-1 flex items-center gap-3 rounded-full transition-colors p-[10px]"
+            style={{ backgroundColor: colors.cardBackground }}
+          >
+            <div className="w-12 h-12 rounded-full bg-[#7c3aed]/10 flex items-center justify-center flex-shrink-0">
+              <IconArrowsExchange size={20} className="text-[#7c3aed]" />
+            </div>
+            <span className="text-[15px] font-semibold" style={{ color: colors.text }}>
+              {language === "rus" ? "Перевод" : "O'tkazma"}
+            </span>
           </button>
 
           {/* Income */}
@@ -277,7 +294,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center gap-2.5">
                     <p className="font-bold text-base" style={{ color: colors.text }}>
-                      {transaction.currency === "USD" ? "$" : ""}{transaction.amount.toFixed(2)}
+                      {transaction.amount.toLocaleString()} {transaction.currency === "UZS" ? "som" : transaction.currency}
                     </p>
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center ${transaction.type === 'received'
@@ -361,6 +378,13 @@ export default function Dashboard() {
         onClose={() => setIsAddTransactionOpen(false)}
         onSuccess={fetchDashboardData}
         type={transactionType}
+      />
+
+      {/* Transfer Drawer */}
+      <TransferDrawer
+        isOpen={isTransferOpen}
+        onClose={() => setIsTransferOpen(false)}
+        onSuccess={fetchDashboardData}
       />
     </div>
   );

@@ -44,15 +44,16 @@ class UserUpdate(BaseModel):
 
 class UserBalance(BaseModel):
     totalBalance: float
-    currency: str = "USD"
+    currency: str = "UZS"
 
 # Card
 class CardBase(BaseModel):
     cardholder_name: str
     full_card_number: str
     balance: float = 0.0
-    currency: str = "USD"
+    currency: str = "UZS"
     card_type: str
+    color: Optional[str] = None
 
 class CardRead(CardBase):
     id: int
@@ -69,6 +70,7 @@ class CardCreate(BaseModel):
     expiry_date: str
     cvv: str
     balance: Optional[float] = 0.0
+    color: Optional[str] = None
 
 # Transaction
 class TransactionBase(BaseModel):
@@ -76,7 +78,7 @@ class TransactionBase(BaseModel):
     type: str
     category: str
     amount: float
-    currency: str = "USD"
+    currency: str = "UZS"
     recipient_name: str
     recipient_avatar: Optional[str] = None
     description: Optional[str] = None
@@ -90,11 +92,18 @@ class TransactionRead(TransactionBase):
 class TransactionCreate(TransactionBase):
     pass
 
+class CardTransfer(BaseModel):
+    from_card_id: int
+    to_card_id: Optional[int] = None
+    to_phone: Optional[str] = None
+    amount: float
+    description: Optional[str] = None
+
 # Savings Goal
 class SavingsGoalBase(BaseModel):
     name: str
     target_amount: float
-    currency: str = "USD"
+    currency: str = "UZS"
     icon: Optional[str] = "car"
     color: Optional[str] = "#7c3aed"
     deadline: Optional[datetime] = None

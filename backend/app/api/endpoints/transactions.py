@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.db.session import get_db
 from app.models.models import Transaction, Card, User
-from app.schemas.schemas import TransactionRead, TransactionCreate
+from app.schemas.schemas import TransactionRead, TransactionCreate, CardTransfer
 from app.api.endpoints.user import get_current_user
 
 router = APIRouter()
@@ -67,3 +67,52 @@ def create_transaction(
     db.commit()
     db.refresh(new_trans)
     return new_trans
+
+@router.post("/transfer")
+def transfer_money(
+    transfer_in: CardTransfer,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    # Verify source card
+    from_card = db.query(Card).filter(Card.id == transfer_in.from_card_id, Card.user_id == current_user.id).first()
+    if not from_card:
+        raise HTTPException(status_code=404, detail="Source card not found")
+    
+    if from_card.balance < transfer_in.amount:
+        raise HTTPException(status_code=400, detail="Insufficient funds")
+    
+    # Target can be another own card OR a phone number
+    recipient_name = "Transfer"
+    if transfer_in.to_card_id:
+        to_card = db.query(Card).filter(Card.id == transfer_in.to_card_id, Card.user_id == current_user.id).first()
+        if not to_card:
+            raise HTTPException(status_code=404, detail="Target card not found")
+        to_card.balance += transfer_in.amount
+        recipient_name = f"My Card (**** {to_card.card_number})"
+        db.add(to_card)
+    elif transfer_in.to_phone:
+        # For demo, we just simulate sending to a phone
+        recipient_name = transfer_in.to_phone
+    else:
+        raise HTTPException(status_code=400, detail="Target card or phone required")
+    
+    # Update source balance
+    from_card.balance -= transfer_in.amount
+    db.add(from_card)
+    
+    # Create transaction record
+    new_trans = Transaction(
+        user_id=current_user.id,
+        card_id=transfer_in.from_card_id,
+        type="sent",
+        category="Transfer",
+        amount=transfer_in.amount,
+        currency=from_card.currency,
+        recipient_name=recipient_name,
+        description=transfer_in.description or "Internal transfer"
+    )
+    db.add(new_trans)
+    db.commit()
+    db.refresh(new_trans)
+    return {"success": True, "transaction": new_trans}

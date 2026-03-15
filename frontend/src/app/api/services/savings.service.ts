@@ -42,8 +42,8 @@ export const savingsService = {
     /**
      * Add money to a goal
      */
-    addMoney: async (id: number, amount: number): Promise<Goal> => {
-        const response = await apiClient.post<Goal>(`/savings/goals/${id}/add`, { amount });
+    addMoneyToGoal: async (id: number, amount: number, card_id?: number): Promise<Goal> => {
+        const response = await apiClient.post<Goal>(`/savings/goals/${id}/add`, { amount, card_id });
         return response.data;
     },
 

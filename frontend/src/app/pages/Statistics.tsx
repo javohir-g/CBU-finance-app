@@ -226,7 +226,7 @@ export default function Statistics() {
                   </p>
                 </div>
                 <p className="text-xl font-bold text-[#22c55e]">
-                  ${totalIncome.toFixed(2)}
+                  {totalIncome.toLocaleString()} som
                 </p>
               </>
             )}
@@ -251,7 +251,7 @@ export default function Statistics() {
                   </p>
                 </div>
                 <p className="text-xl font-bold text-[#ff4757]">
-                  ${totalExpense.toFixed(2)}
+                  {totalExpense.toLocaleString()} som
                 </p>
               </>
             )}
@@ -306,7 +306,7 @@ export default function Statistics() {
                             {content[language][category.category as keyof typeof content["rus"]] || category.category}
                           </p>
                           <p className="text-sm font-bold" style={{ color: colors.text }}>
-                            ${category.amount.toFixed(2)}
+                            {category.amount.toLocaleString()} som
                           </p>
                         </div>
                         <div className="w-full h-2 rounded-full" style={{ backgroundColor: colors.background }}>

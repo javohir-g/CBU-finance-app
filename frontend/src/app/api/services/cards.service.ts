@@ -46,7 +46,7 @@ export const cardsService = {
     /**
      * Add a new card
      */
-    addCard: async (data: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance?: number }): Promise<Card> => {
+    addCard: async (data: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance?: number; color?: string }): Promise<Card> => {
         const response = await apiClient.post<any>("/cards", data);
         const c = response.data;
         return {

@@ -23,11 +23,17 @@ def create_card(
     last_4 = card_in.card_number[-4:]
     masked = f"•••• •••• •••• {last_4}"
     
-    # Randomly assign card type for demo if not specified
-    card_type = "visa"
-    if card_in.card_number.startswith("4"): card_type = "visa"
-    elif card_in.card_number.startswith("5"): card_type = "mastercard"
-    elif card_in.card_number.startswith("8"): card_type = "uzcard"
+    # Detect card type
+    card_type = "uzcard" # Fallback
+    clean_number = card_in.card_number.replace(" ", "")
+    if clean_number.startswith("8600"):
+        card_type = "uzcard"
+    elif clean_number.startswith("9860"):
+        card_type = "humo"
+    elif clean_number.startswith("4"):
+        card_type = "visa"
+    elif clean_number.startswith("5"):
+        card_type = "mastercard"
     
     new_card = Card(
         user_id=current_user.id,
@@ -35,8 +41,9 @@ def create_card(
         card_number=last_4,
         full_card_number=masked,
         balance=card_in.balance or 0.0,
-        currency="USD",
-        card_type=card_type
+        currency="UZS",
+        card_type=card_type,
+        color=card_in.color or "#7c3aed"
     )
     db.add(new_card)
     db.commit()

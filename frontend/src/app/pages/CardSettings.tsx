@@ -7,13 +7,21 @@ import { cardsService, Card } from "../api/services/cards.service";
 import { BottomNav } from "../components/BottomNav";
 import { AddCardDrawer } from "../components/AddCardDrawer";
 import { IconArrowLeft, IconLock, IconCreditCard, IconShieldOff, IconCopy, IconCheck, IconEye, IconEyeOff, IconPlus } from "@tabler/icons-react";
-import imgMastercard from "figma:asset/83237b3cdb68e203187a53755f13a5e2c808b401.png";
+import imgUzcard from "figma:asset/Uzcard-01.png";
+import imgHumo from "figma:asset/Humo-01.jpg";
 import cardBg from "figma:asset/9d007835032269e072081ad973a5bb9d260a672c.png";
 
 export default function CardSettings() {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const { colors } = useTheme();
+
+  const getCardLogo = (number: string) => {
+    const cleanNumber = (number || "").replace(/\s/g, "");
+    if (cleanNumber.startsWith("8600")) return imgUzcard;
+    if (cleanNumber.startsWith("9860")) return imgHumo;
+    return imgUzcard;
+  };
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
   const [showCardNumber, setShowCardNumber] = useState(true);
@@ -101,14 +109,15 @@ export default function CardSettings() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleAddCard = async (newCard: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string }) => {
+  const handleAddCard = async (newCard: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string; color: string }) => {
     try {
       const addedCard = await cardsService.addCard({
         cardholder_name: newCard.cardholder_name,
         card_number: newCard.card_number,
         expiry_date: newCard.expiry_date,
         cvv: newCard.cvv,
-        balance: parseFloat(newCard.balance)
+        balance: parseFloat(newCard.balance),
+        color: newCard.color
       });
       setCards([...cards, addedCard]);
     } catch (error) {
@@ -178,11 +187,11 @@ export default function CardSettings() {
                     <div>
                       <p className="text-white/90 text-xs font-medium mb-1.5">{content[language].availableBalance}</p>
                       <p className="text-white text-3xl font-bold tracking-tight drop-shadow-lg">
-                        {card.currency === "USD" ? "$" : ""}{card.balance.toLocaleString()}
+                        {card.balance.toLocaleString()} som
                       </p>
                     </div>
                     <div className="w-12 h-12 flex-shrink-0">
-                      <img src={imgMastercard} alt="Mastercard" className="w-full h-full object-contain drop-shadow-lg" />
+                      <img src={getCardLogo(card.number)} alt="Card type" className="w-full h-full object-contain drop-shadow-lg" />
                     </div>
                   </div>
 
@@ -241,11 +250,11 @@ export default function CardSettings() {
                   <div>
                     <p className="text-white/90 text-xs font-medium mb-1.5">{content[language].availableBalance}</p>
                     <p className="text-white text-3xl font-bold tracking-tight drop-shadow-lg">
-                      {selectedCardData?.currency === "USD" ? "$" : ""}{selectedCardData?.balance.toLocaleString()}
+                      {selectedCardData?.balance.toLocaleString()} som
                     </p>
                   </div>
                   <div className="w-12 h-12 flex-shrink-0">
-                    <img src={imgMastercard} alt="Mastercard" className="w-full h-full object-contain drop-shadow-lg" />
+                    <img src={getCardLogo(selectedCardData?.number || "")} alt="Card type" className="w-full h-full object-contain drop-shadow-lg" />
                   </div>
                 </div>
 

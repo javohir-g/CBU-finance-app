@@ -1,13 +1,15 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
-import { IconX } from "@tabler/icons-react";
+import { IconX, IconCheck } from "@tabler/icons-react";
+import imgUzcard from "figma:asset/Uzcard-01.png";
+import imgHumo from "figma:asset/Humo-01.jpg";
 
 interface AddCardDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddCard: (card: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string }) => void;
+  onAddCard: (card: { cardholder_name: string; card_number: string; expiry_date: string; cvv: string; balance: string; color: string }) => void;
 }
 
 export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps) {
@@ -18,6 +20,25 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [initialBalance, setInitialBalance] = useState("");
+  const [selectedColor, setSelectedColor] = useState("#7c3aed");
+
+  const cardDesigns = [
+    "#7c3aed", // Purple
+    "#22c55e", // Green
+    "#3b82f6", // Blue
+    "#f59e0b", // Orange
+    "#ef4444", // Red
+    "#000000", // Black
+  ];
+
+  const getCardType = (number: string) => {
+    const cleanNumber = number.replace(/\s/g, "");
+    if (cleanNumber.startsWith("8600")) return "uzcard";
+    if (cleanNumber.startsWith("9860")) return "humo";
+    return null;
+  };
+
+  const cardType = getCardType(cardNumber);
 
   const content = {
     rus: {
@@ -33,7 +54,8 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       enterCardNumber: "0000 0000 0000 0000",
       enterExpiry: "MM/YY",
       enterCVV: "123",
-      enterBalance: "0.00"
+      enterBalance: "0.00",
+      chooseDesign: "Выбрать дизайн"
     },
     uzb: {
       title: "Karta Qo'shish",
@@ -48,7 +70,8 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       enterCardNumber: "0000 0000 0000 0000",
       enterExpiry: "OO/YY",
       enterCVV: "123",
-      enterBalance: "0.00"
+      enterBalance: "0.00",
+      chooseDesign: "Dizaynni tanlang"
     }
   };
 
@@ -82,20 +105,27 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
     }
   };
 
-  const handleSubmit = () => {
-    if (
+  const isValidCard = () => {
+    const cleanNumber = cardNumber.replace(/\s/g, "");
+    return (
       cardholderName.trim() &&
-      cardNumber.replace(/\s/g, "").length === 16 &&
+      cleanNumber.length === 16 &&
+      (cleanNumber.startsWith("8600") || cleanNumber.startsWith("9860")) &&
       expiryDate.length === 5 &&
       cvv.length === 3 &&
       initialBalance
-    ) {
+    );
+  };
+
+  const handleSubmit = () => {
+    if (isValidCard()) {
       onAddCard({
         cardholder_name: cardholderName,
         card_number: cardNumber.replace(/\s/g, ""),
         expiry_date: expiryDate,
         cvv: cvv,
-        balance: initialBalance
+        balance: initialBalance,
+        color: selectedColor
       });
       // Reset form
       setCardholderName("");
@@ -122,7 +152,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
 
           {/* Drawer */}
           <motion.div
-            className="fixed bottom-0 left-0 right-0 rounded-t-[30px] z-50 max-h-[85vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 rounded-t-[30px] z-50 max-h-[90vh] overflow-y-auto"
             style={{ backgroundColor: colors.background }}
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -147,7 +177,53 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
             </div>
 
             {/* Form */}
-            <div className="px-6 py-6 space-y-4">
+            <div className="px-6 py-6 space-y-5">
+              {/* Card Preview */}
+              <div 
+                className="w-full aspect-[1.586/1] rounded-2xl p-6 flex flex-col justify-between shadow-xl transition-colors duration-500"
+                style={{ backgroundColor: selectedColor }}
+              >
+                <div className="flex justify-between items-start">
+                  <div className="text-white/80 text-xs font-medium uppercase tracking-widest">
+                    {cardholderName || "CARDHOLDER NAME"}
+                  </div>
+                  <div className="h-8">
+                    {cardType === "uzcard" && <img src={imgUzcard} alt="Uzcard" className="h-full object-contain" />}
+                    {cardType === "humo" && <img src={imgHumo} alt="Humo" className="h-full object-contain" />}
+                  </div>
+                </div>
+                <div className="text-white text-xl font-medium tracking-[0.2em]">
+                  {cardNumber || "0000 0000 0000 0000"}
+                </div>
+                <div className="flex justify-between items-end">
+                  <div className="text-white/80 text-xs">
+                    EXP: {expiryDate || "MM/YY"}
+                  </div>
+                </div>
+              </div>
+
+              {/* Design Selection */}
+              <div>
+                <label className="block text-sm font-semibold mb-3" style={{ color: colors.text }}>
+                  {content[language].chooseDesign}
+                </label>
+                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+                  {cardDesigns.map(color => (
+                    <button
+                      key={color}
+                      onClick={() => setSelectedColor(color)}
+                      className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center border-2 transition-transform active:scale-95"
+                      style={{ 
+                        backgroundColor: color,
+                        borderColor: selectedColor === color ? colors.primary : 'transparent'
+                      }}
+                    >
+                      {selectedColor === color && <IconCheck size={18} className="text-white" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Cardholder Name */}
               <div>
                 <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
@@ -172,18 +248,24 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                 <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
                   {content[language].cardNumber}
                 </label>
-                <input
-                  type="text"
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
-                  placeholder={content[language].enterCardNumber}
-                  className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors tracking-wider"
-                  style={{
-                    backgroundColor: colors.cardBackground,
-                    color: colors.text,
-                    border: `1px solid ${colors.border}`
-                  }}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={cardNumber}
+                    onChange={handleCardNumberChange}
+                    placeholder={content[language].enterCardNumber}
+                    className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors tracking-wider"
+                    style={{
+                      backgroundColor: colors.cardBackground,
+                      color: colors.text,
+                      border: `1px solid ${colors.border}`
+                    }}
+                  />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 h-6">
+                    {cardType === "uzcard" && <img src={imgUzcard} alt="Uzcard" className="h-full" />}
+                    {cardType === "humo" && <img src={imgHumo} alt="Humo" className="h-full" />}
+                  </div>
+                </div>
               </div>
 
               {/* Expiry and CVV */}
@@ -229,22 +311,25 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                 <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
                   {content[language].initialBalance}
                 </label>
-                <input
-                  type="number"
-                  value={initialBalance}
-                  onChange={(e) => setInitialBalance(e.target.value)}
-                  placeholder={content[language].enterBalance}
-                  className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors"
-                  style={{
-                    backgroundColor: colors.cardBackground,
-                    color: colors.text,
-                    border: `1px solid ${colors.border}`
-                  }}
-                />
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={initialBalance}
+                    onChange={(e) => setInitialBalance(e.target.value)}
+                    placeholder={content[language].enterBalance}
+                    className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors pr-12"
+                    style={{
+                      backgroundColor: colors.cardBackground,
+                      color: colors.text,
+                      border: `1px solid ${colors.border}`
+                    }}
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-medium" style={{ color: colors.textSecondary }}>som</span>
+                </div>
               </div>
 
               {/* Buttons */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-4 pb-8">
                 <button
                   onClick={onClose}
                   className="flex-1 py-4 rounded-full font-semibold text-base transition-colors"
@@ -258,13 +343,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                 <button
                   onClick={handleSubmit}
                   className="flex-1 py-4 rounded-full font-semibold text-base bg-[#7c3aed] text-white hover:bg-[#6d32d4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={
-                    !cardholderName.trim() ||
-                    cardNumber.replace(/\s/g, "").length !== 16 ||
-                    expiryDate.length !== 5 ||
-                    cvv.length !== 3 ||
-                    !initialBalance
-                  }
+                  disabled={!isValidCard()}
                 >
                   {content[language].add}
                 </button>
@@ -275,4 +354,4 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       )}
     </AnimatePresence>
   );
-}
+}

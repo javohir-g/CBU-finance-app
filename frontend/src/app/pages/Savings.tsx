@@ -6,11 +6,14 @@ import { savingsService, Goal } from "../api/services/savings.service";
 import { BottomNav } from "../components/BottomNav";
 import { AddGoalDrawer } from "../components/AddGoalDrawer";
 import { IconCar, IconPlane, IconHome, IconPlus, IconShoppingBag, IconBook, IconHeart, IconTrophy, IconGift } from "@tabler/icons-react";
+import { TopUpGoalDrawer } from "../components/TopUpGoalDrawer";
 
 export default function Savings() {
   const { language } = useLanguage();
   const { colors } = useTheme();
   const [isAddGoalOpen, setIsAddGoalOpen] = useState(false);
+  const [isTopUpOpen, setIsTopUpOpen] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState<{ id: number; name: string } | null>(null);
   const [savingsGoals, setSavingsGoals] = useState<Goal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -64,7 +67,7 @@ export default function Savings() {
         target_amount: newGoal.amount,
         icon: newGoal.icon,
         color: newGoal.color,
-        currency: "USD"
+        currency: "UZS"
       });
       fetchGoals(); // Refresh goals
       setIsAddGoalOpen(false);
@@ -108,13 +111,18 @@ export default function Savings() {
               return (
                 <motion.div
                   key={goal.id}
-                  className="rounded-[24px] p-5 cursor-pointer transition-colors"
+                  onClick={() => {
+                    setSelectedGoal({ id: goal.id, name: goal.name });
+                    setIsTopUpOpen(true);
+                  }}
+                  className="rounded-[24px] p-5 cursor-pointer transition-colors relative overflow-hidden group"
                   style={{ backgroundColor: colors.cardBackground }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
+                  <div className="absolute right-0 top-0 bottom-0 w-1 bg-[#7c3aed] opacity-0 group-hover:opacity-100 transition-opacity" style={{ backgroundColor: goal.color }} />
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-full flex items-center justify-center" style={bgColorStyle}>
@@ -126,7 +134,7 @@ export default function Savings() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-xl" style={{ color: colors.text }}>${goal.saved_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                      <p className="font-bold text-xl" style={{ color: colors.text }}>{goal.saved_amount.toLocaleString()} som</p>
                       <p className="text-xs" style={{ color: colors.textSecondary }}>{content[language].saved}</p>
                     </div>
                   </div>
@@ -145,7 +153,7 @@ export default function Savings() {
 
                   <div className="flex items-center justify-between">
                     <p className="text-sm" style={{ color: colors.textSecondary }}>{content[language].goal}</p>
-                    <p className="text-sm font-semibold" style={{ color: colors.textSecondary }}>${goal.target_amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                    <p className="text-sm font-semibold" style={{ color: colors.textSecondary }}>{goal.target_amount.toLocaleString()} som</p>
                   </div>
                 </motion.div>
               );
@@ -186,6 +194,14 @@ export default function Savings() {
 
       <BottomNav />
       <AddGoalDrawer isOpen={isAddGoalOpen} onClose={() => setIsAddGoalOpen(false)} onAddGoal={handleAddGoal} />
+      
+      <TopUpGoalDrawer 
+        isOpen={isTopUpOpen} 
+        onClose={() => setIsTopUpOpen(false)} 
+        onSuccess={fetchGoals}
+        goalId={selectedGoal?.id || null}
+        goalName={selectedGoal?.name || ""}
+      />
     </div>
   );
 }

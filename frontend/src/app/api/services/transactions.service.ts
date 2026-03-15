@@ -50,5 +50,12 @@ export const transactionsService = {
     createTransaction: async (data: Omit<Transaction, "id" | "user_id" | "created_at">): Promise<Transaction> => {
         const response = await apiClient.post<Transaction>("/transactions", data);
         return response.data;
+    },
+    /**
+     * Internal/Phone transfer
+     */
+    transfer: async (data: { from_card_id: number; to_card_id?: number; to_phone?: string; amount: number; description?: string }): Promise<any> => {
+        const response = await apiClient.post<any>("/transactions/transfer", data);
+        return response.data;
     }
 };

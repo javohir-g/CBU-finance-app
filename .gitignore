@@ -1,0 +1,30 @@
+# System Files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/**/*.pyc
+backend/sql_app.db
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+edit.txt

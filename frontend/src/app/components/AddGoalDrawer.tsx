@@ -147,18 +147,21 @@ export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps
                 <label className="block text-sm font-semibold mb-2" style={{ color: colors.text }}>
                   {content[language].goalAmount}
                 </label>
-                <input
-                  type="number"
-                  value={goalAmount}
-                  onChange={(e) => setGoalAmount(e.target.value)}
-                  placeholder={content[language].enterAmount}
-                  className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors"
-                  style={{
-                    backgroundColor: colors.cardBackground,
-                    color: colors.text,
-                    border: `1px solid ${colors.border}`
-                  }}
-                />
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={goalAmount}
+                    onChange={(e) => setGoalAmount(e.target.value)}
+                    placeholder={content[language].enterAmount}
+                    className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors pr-16"
+                    style={{
+                      backgroundColor: colors.cardBackground,
+                      color: colors.text,
+                      border: `1px solid ${colors.border}`
+                    }}
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-semibold" style={{ color: colors.textSecondary }}>som</span>
+                </div>
               </div>
 
               {/* Select Icon */}
