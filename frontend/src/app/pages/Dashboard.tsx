@@ -64,11 +64,24 @@ export default function Dashboard() {
     fetchDashboardData();
   }, []);
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return "morning";
+    if (hour >= 12 && hour < 18) return "afternoon";
+    if (hour >= 18 && hour < 22) return "evening";
+    return "night";
+  };
+
+  const currentGreetingType = getGreeting();
+
   const content = {
     rus: {
       greeting: "Привет",
       name: user?.name || "User",
-      goodMorning: "Доброе утро!",
+      morning: "Доброе утро!",
+      afternoon: "Добрый день!",
+      evening: "Добрый вечер!",
+      night: "Доброй ночи!",
       totalBalance: "Общий Баланс",
       expense: "Расход",
       income: "Доход",
@@ -82,7 +95,10 @@ export default function Dashboard() {
     uzb: {
       greeting: "Salom",
       name: user?.name || "User",
-      goodMorning: "Xayrli tong!",
+      morning: "Xayrli tong!",
+      afternoon: "Xayrli kun!",
+      evening: "Xayrli kech!",
+      night: "Xayrli tun!",
       totalBalance: "Umumiy Balans",
       expense: "Xarajat",
       income: "Daromad",
@@ -141,7 +157,7 @@ export default function Dashboard() {
             <h1 className="text-xl font-semibold" style={{ color: colors.text }}>
               {content[language].greeting}, {content[language].name}
             </h1>
-            <p className="text-xs" style={{ color: colors.textSecondary }}>{content[language].goodMorning}</p>
+            <p className="text-xs" style={{ color: colors.textSecondary }}>{content[language][currentGreetingType]}</p>
           </div>
         </div>
         <button

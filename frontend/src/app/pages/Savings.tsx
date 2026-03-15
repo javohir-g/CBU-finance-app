@@ -60,13 +60,15 @@ export default function Savings() {
     fetchGoals();
   }, []);
 
-  const handleAddGoal = async (newGoal: { name: string; amount: number; icon: string; color: string }) => {
+  const handleAddGoal = async (newGoal: { name: string; amount: number; icon: string; color: string; is_shared: boolean; partner_name?: string }) => {
     try {
       await savingsService.createGoal({
         name: newGoal.name,
         target_amount: newGoal.amount,
         icon: newGoal.icon,
         color: newGoal.color,
+        is_shared: newGoal.is_shared,
+        partner_name: newGoal.partner_name,
         currency: "UZS"
       });
       fetchGoals(); // Refresh goals

@@ -24,6 +24,7 @@ export function TopUpGoalDrawer({ isOpen, onClose, onSuccess, goalId, goalName }
   const [cards, setCards] = useState<Card[]>([]);
   const [isLoadingCards, setIsLoadingCards] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -52,14 +53,18 @@ export function TopUpGoalDrawer({ isOpen, onClose, onSuccess, goalId, goalName }
       selectCard: "Выберите карту для списания",
       amount: "Сумма пополнения",
       submit: "Пополнить",
-      cancel: "Отмена"
+      cancel: "Отмена",
+      insufficientFunds: "Недостаточно средств на карте",
+      genericError: "Произошла ошибка при пополнении"
     },
     uzb: {
       title: "Maqsadni to'ldirish",
       selectCard: "Yechib olish uchun kartani tanlang",
       amount: "To'ldirish summasi",
       submit: "To'ldirish",
-      cancel: "Bekor qilish"
+      cancel: "Bekor qilish",
+      insufficientFunds: "Kartada mablag' yetarli emas",
+      genericError: "To'ldirishda xatolik yuz berdi"
     }
   };
 
@@ -67,13 +72,19 @@ export function TopUpGoalDrawer({ isOpen, onClose, onSuccess, goalId, goalName }
     if (!goalId || !selectedCardId || !amount || isSubmitting) return;
 
     setIsSubmitting(true);
+    setError(null);
     try {
       await savingsService.addMoneyToGoal(goalId, parseFloat(amount), selectedCardId);
       onSuccess?.();
       onClose();
       setAmount("");
-    } catch (error) {
-      console.error("Top up failed:", error);
+    } catch (err: any) {
+      console.error("Top up failed:", err);
+      if (err.response?.status === 400) {
+        setError(content[language].insufficientFunds);
+      } else {
+        setError(content[language].genericError);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -145,7 +156,7 @@ export function TopUpGoalDrawer({ isOpen, onClose, onSuccess, goalId, goalName }
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden bg-white/5">
                             <img 
-                                src={card.number.startsWith("8600") ? imgUzcard : (card.number.startsWith("9860") ? imgHumo : imgUzcard)} 
+                                src={card.type === "humo" ? imgHumo : imgUzcard} 
                                 className="w-7 h-7 object-contain" 
                             />
                         </div>
@@ -159,6 +170,20 @@ export function TopUpGoalDrawer({ isOpen, onClose, onSuccess, goalId, goalName }
                   ))}
                 </div>
               </div>
+
+              {/* Error Message */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="text-red-500 text-sm font-medium text-center"
+                  >
+                    {error}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Submit */}
               <button

@@ -129,3 +129,7 @@ class SavingsGoalUpdate(BaseModel):
     icon: Optional[str] = None
     color: Optional[str] = None
     deadline: Optional[datetime] = None
+
+class GoalTopUp(BaseModel):
+    amount: float
+    card_id: Optional[int] = None

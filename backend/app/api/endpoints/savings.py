@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.db.session import get_db
 from app.models.models import SavingsGoal, User, Card, Transaction
-from app.schemas.schemas import SavingsGoalRead, SavingsGoalCreate, SavingsGoalUpdate
+from app.schemas.schemas import SavingsGoalRead, SavingsGoalCreate, SavingsGoalUpdate, GoalTopUp
 from app.api.endpoints.user import get_current_user
 
 router = APIRouter()
@@ -41,7 +41,7 @@ def create_goal(
 @router.post("/goals/{goal_id}/add", response_model=SavingsGoalRead)
 def add_money_to_goal(
     goal_id: int,
-    amount_data: dict,
+    top_up: GoalTopUp,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -49,8 +49,8 @@ def add_money_to_goal(
     if not goal:
         raise HTTPException(status_code=404, detail="Goal not found")
     
-    amount = amount_data.get("amount", 0)
-    card_id = amount_data.get("card_id")
+    amount = top_up.amount
+    card_id = top_up.card_id
     
     if card_id:
         card = db.query(Card).filter(Card.id == card_id, Card.user_id == current_user.id).first()
