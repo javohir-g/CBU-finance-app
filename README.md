@@ -13,13 +13,8 @@
 **Будущее банкинга в твоем кармане. Элегантность в каждом движении.**
 **Banking kelajagi sizning cho'ntagingizda. Har bir harakatda nafosat.**
 
----
-
-[🇷🇺 Русский](#-russian-version) | [🇺🇿 O'zbekcha](#-o-zbek-versiyasi)
-
 </div>
 
----
 
 ## 🏗 System Architecture
 
