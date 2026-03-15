@@ -1,5 +1,7 @@
 # 🏦 CBU Finance: Your Digital Wallet in Telegram
 
+![Banner](readme_images/banner.png)
+
 <div align="center">
 
 ![Telegram](https://img.shields.io/badge/Telegram-Mini_App-2AABEE?logo=telegram)
