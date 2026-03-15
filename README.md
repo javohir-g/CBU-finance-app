@@ -96,14 +96,20 @@ graph TD
 
 ### 📸 Галерея (Скриншоты)
 
-| Экран | Описание |
-| :--- | :--- |
-| ![Главная](readme_images/home.png) | **Главный экран Dashboard:** Отображение общего баланса пользователя, быстрый доступ к добавлению доходов и расходов, а также список последних транзакций и быстрых сервисов. |
-| ![Карты](readme_images/cards.png) | **Управление картами:** Удобный интерфейс для добавления и просмотра привязанных карт (Uzcard/Humo/Visa) с отображением индивидуального баланса каждой карты. |
-| ![Цели](readme_images/goals.png) | **Финансовые цели:** Система накоплений с визуальным прогрессом. Позволяет создавать личные или общие цели с партнерами для совместного бюджета. |
-| ![Транзакции](readme_images/transactions.png) | **История операций:** Подробный лог всех денежных движений с категоризацией, датами и именами контрагентов. |
-| ![Статистика](readme_images/stats.png) | **Аналитика:** Наглядные графики и диаграммы для отслеживания структуры расходов и доходов по категориям. |
-| ![Ещё](readme_images/more.png) | **Дополнительные сервисы:** Доступ к валютным курсам ЦБ, настройкам профиля и другим банковским услугам "в один тап". |
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><b>Главный экран</b><br/><img src="readme_images/home.png" width="200"/></td>
+      <td align="center"><b>Мои карты</b><br/><img src="readme_images/cards.png" width="200"/></td>
+      <td align="center"><b>Копилка</b><br/><img src="readme_images/goals.png" width="200"/></td>
+    </tr>
+    <tr>
+      <td align="center"><b>История</b><br/><img src="readme_images/transactions.png" width="200"/></td>
+      <td align="center"><b>Аналитика</b><br/><img src="readme_images/stats.png" width="200"/></td>
+      <td align="center"><b>Сервисы</b><br/><img src="readme_images/more.png" width="200"/></td>
+    </tr>
+  </table>
+</div>
 
 ### 🛠 Технологический Стек
 - **Frontend:** React 18, Vite, Framer Motion.
@@ -164,14 +170,20 @@ Biz vazifada ko'rsatilgan talablarning 100% qismini bajardik:
 
 ### 📸 Galereya (Skrinshotlar)
 
-| Ekran | Tavsif |
-| :--- | :--- |
-| ![Asosiy](readme_images/home.png) | **Asosiy Dashboard:** Foydalanuvchining umumiy balansini ko'rsatish, daromad va xarajatlarni tezkor qo'shish, shuningdek, so'nggi operatsiyalar va tezkor xizmatlar ro'yxati. |
-| ![Kartalar](readme_images/cards.png) | **Kartalarni boshqarish:** Uzcard/Humo/Visa kartalarini qo'shish va ko'rish uchun qulay interfeys, har bir kartaning shaxsiy balansi ko'rsatilgan. |
-| ![Maqsadlar](readme_images/goals.png) | **Moliyaviy maqsadlar:** Vizual progressga ega jamg'arma tizimi. Shaxsiy yoki hamkorlar bilan birgalikdagi maqsadlarni yaratish imkonini beradi. |
-| ![Tranzaksiyalar](readme_images/transactions.png) | **Amaliyotlar tarixi:** Kategoriyalarga ajratilgan xarajatlar va tushumlarning batafsil jurnali. |
-| ![Statistika](readme_images/stats.png) | **Analitika:** Xarajatlar va daromadlar tarkibini kuzatib borish uchun tushunarli grafik va diagrammalar. |
-| ![Yana](readme_images/more.png) | **Qo'shimcha xizmatlar:** MB valyuta kurslari, profil sozlamalari va boshqa bank xizmatlariga "bir tegishda" kirish. |
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><b>Asosiy ekran</b><br/><img src="readme_images/home.png" width="200"/></td>
+      <td align="center"><b>Kartalarim</b><br/><img src="readme_images/cards.png" width="200"/></td>
+      <td align="center"><b>Maqsadlar</b><br/><img src="readme_images/goals.png" width="200"/></td>
+    </tr>
+    <tr>
+      <td align="center"><b>Tarix</b><br/><img src="readme_images/transactions.png" width="200"/></td>
+      <td align="center"><b>Analitika</b><br/><img src="readme_images/stats.png" width="200"/></td>
+      <td align="center"><b>Xizmatlar</b><br/><img src="readme_images/more.png" width="200"/></td>
+    </tr>
+  </table>
+</div>
 
 ### 🛠 Texnologik Stek
 - **Frontend:** React 18, Vite, Framer Motion.

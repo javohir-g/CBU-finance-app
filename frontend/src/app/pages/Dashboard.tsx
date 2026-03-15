@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
@@ -42,17 +42,38 @@ export default function Dashboard() {
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [aiInsight, setAiInsight] = useState<{ text: string, type: 'warning' | 'tip' | 'success' } | null>(null);
+
   // Fetch dashboard data
   const fetchDashboardData = async () => {
     setIsLoading(true);
     try {
       const [balanceData, transactionsData] = await Promise.all([
         userService.getBalance(),
-        transactionsService.getTransactions({ limit: 4 })
+        transactionsService.getTransactions({ limit: 10 }) // Get more for better AI insight
       ]);
 
       setBalance(balanceData?.totalBalance ?? 0);
       setRecentTransactions(transactionsData?.transactions ?? []);
+      
+      // Generate AI-like insight
+      if (transactionsData?.transactions?.length > 0) {
+        const foodExpenses = transactionsData.transactions
+          .filter(t => t.type === 'sent' && t.category === 'food')
+          .reduce((sum, t) => sum + t.amount, 0);
+          
+        if (foodExpenses > 200000) {
+          setAiInsight({
+            text: language === 'rus' ? "Вы потратили много на еду на этой неделе. Попробуйте готовить дома!" : "Bu hafta ovqatga ko'p pul sarfladingiz. Uyda ovqat tayyorlashni sinab ko'ring!",
+            type: 'warning'
+          });
+        } else if (balanceData.totalBalance > 1000000) {
+          setAiInsight({
+            text: language === 'rus' ? "Отличный баланс! Время пополнить одну из ваших целей." : "Ajoyib balans! Maqsadlaringizdan birini to'ldirish vaqti keldi.",
+            type: 'success'
+          });
+        }
+      }
     } catch (error) {
       console.error("Failed to fetch dashboard data:", error);
     } finally {
@@ -204,6 +225,34 @@ export default function Dashboard() {
           </div>
         </div>
       </motion.div>
+
+      {/* AI Insight Card */}
+      <AnimatePresence>
+        {aiInsight && (
+          <motion.div
+            className="px-[15px] mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+          >
+            <div 
+              className="rounded-[24px] p-4 flex items-center gap-4 border"
+              style={{ 
+                backgroundColor: aiInsight.type === 'warning' ? '#fff7ed' : aiInsight.type === 'success' ? '#f0fdf4' : colors.cardBackground,
+                borderColor: aiInsight.type === 'warning' ? '#fed7aa' : aiInsight.type === 'success' ? '#bbf7d0' : colors.border
+              }}
+            >
+              <div className="w-12 h-12 rounded-full bg-[#7c3aed] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#7c3aed]/20">
+                <span className="text-xl">🤖</span>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider mb-0.5" style={{ color: '#7c3aed' }}>AI Financial Insight</p>
+                <p className="text-sm font-medium leading-snug" style={{ color: colors.text }}>{aiInsight.text}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Action Buttons */}
       <motion.div
