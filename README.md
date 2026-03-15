@@ -17,7 +17,7 @@
 
 ---
 
-## 🇷🇺 Russian Version
+## 🇷🇺 Russian
 
 ### 🌟 Визия
 **CBU Finance** — это финтех-решение нового поколения для рынка Узбекистана. Мы объединяем удобство Telegram Mini Apps с мощным функционалом банковского приложения, делая управление финансами легким, социальным и прозрачным.
@@ -50,7 +50,7 @@
 
 ---
 
-## 🇺🇿 O'zbek Versiyasi
+## 🇺🇿 O'zbekcha
 
 ### 🌟 Viziya
 **CBU Finance** — O'zbekiston bozori uchun yangi avlod fintex yechimi. Biz Telegram Mini Apps qulayligini bank ilovasining kuchli funksionalligi bilan birlashtiramiz, bu esa moliyani boshqarishni oson, ijtimoiy va shaffof qiladi.
