@@ -5,8 +5,8 @@ import { IconX, IconChevronDown } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { cardsService, Card } from "../api/services/cards.service";
 import { savingsService } from "../api/services/savings.service";
-import imgUzcard from "figma:asset/Uzcard-01.png";
-import imgHumo from "figma:asset/Humo-01.jpg";
+import imgUzcard from "../assets/uzcard.png";
+import imgHumo from "../assets/humo.png";
 
 interface TopUpGoalDrawerProps {
   isOpen: boolean;
