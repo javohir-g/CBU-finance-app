@@ -4,10 +4,11 @@
 
 ![Telegram](https://img.shields.io/badge/Telegram-Mini_App-2AABEE?logo=telegram)
 ![Status](https://img.shields.io/badge/Hackathon-Project-FFD700)
-![Market](https://img.shields.io/badge/Region-Uzbekistan-blue)
+![Theme](https://img.shields.io/badge/Themes-Dark_%26_Light-blueviolet)
+![Languages](https://img.shields.io/badge/Languages-RU_%26_UZ-success)
 
-**Инновационное банковское приложение в один клик прямо внутри вашего Telegram**
-**Telegram ichida bir tugma orqali ishlaydigan innovatsion bank ilovasi**
+**Будущее банкинга в твоем кармане. Элегантность в каждом движении.**
+**Banking kelajagi sizning cho'ntagingizda. Har bir harakatda nafosat.**
 
 ---
 
@@ -45,6 +46,11 @@
 - Вход через нативную безопасность Telegram.
 - Управление картами **Uzcard** и **Humo**.
 - Детальная аналитика расходов и история транзакций.
+
+#### 🎨 Премиальный дизайн и Персонализация
+- **Адаптивные темы:** Мгновенное переключение между элегантной темной и кристально чистой светлой темой.
+- **Двуязычный интерфейс:** Полная поддержка **Русского** и **Узбекского** языков для вашего комфорта.
+- **Glassmorphism UI:** Современный, "живой" интерфейс с плавными анимациями (Framer Motion).
 
 ### 📸 Галерея (Скриншоты)
 
@@ -93,6 +99,11 @@ Bozor uchun noyob xususiyat — moliyaviy maqsadlarni birgalikda yarating!
 - **Uzcard** va **Humo** kartalarini boshqarish.
 - Xarajatlarning batafsil tahlili va tranzaksiyalar tarixi.
 
+#### 🎨 Premium Dizayn va Shaxsiylashtirish
+- **Adaptiv Mavzular:** Nafis qora va tiniq oq mavzular o'rtasida bir zumda almashish.
+- **Ikki Tilli Interfeys:** Sizning qulayligingiz uchun **Rus** va **O'zbek** tillarini to'liq qo'llab-quvvatlash.
+- **Glassmorphism UI:** Silliq animatsiyalarga ega zamonaviy va "jonli" interfeys.
+
 ### 📸 Galereya (Skrinshotlar)
 
 | Ekran | Tavsif |
@@ -112,6 +123,10 @@ Bozor uchun noyob xususiyat — moliyaviy maqsadlarni birgalikda yarating!
 ---
 
 <div align="center">
+  <br/>
+  <h2>✨ Магия в каждой транзакции. Будущее уже здесь. ✨</h2>
+  <h2>✨ Har bir tranzaksiyada sehr. Kelajak mana shu yerda. ✨</h2>
+  <br/>
   <h3>🏆 Сделано для инноваций. Сделано для пользователей.</h3>
   <h3>🏆 Innovatsiyalar uchun. Foydalanuvchilar uchun.</h3>
   <p>© 2025 Profound Vision Team</p>
