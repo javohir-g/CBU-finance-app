@@ -21,6 +21,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
   const [cvv, setCvv] = useState("");
   const [initialBalance, setInitialBalance] = useState("");
   const [selectedColor, setSelectedColor] = useState("#7c3aed");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const cardDesigns = [
     "#7c3aed", // Purple
@@ -55,7 +56,13 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       enterExpiry: "MM/YY",
       enterCVV: "123",
       enterBalance: "0.00",
-      chooseDesign: "Выбрать дизайн"
+      chooseDesign: "Выбрать дизайн",
+      errorPrefix: "Номер карты должен начинаться с 8600 или 9860",
+      errorLength: "Номер карты должен содержать 16 цифр",
+      errorExpiry: "Введите корректный срок действия (ММ/ГГ)",
+      errorCVV: "CVV должен содержать 3 цифры",
+      errorName: "Введите имя держателя карты",
+      errorBalance: "Введите начальный баланс"
     },
     uzb: {
       title: "Karta Qo'shish",
@@ -71,7 +78,13 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
       enterExpiry: "OO/YY",
       enterCVV: "123",
       enterBalance: "0.00",
-      chooseDesign: "Dizaynni tanlang"
+      chooseDesign: "Dizaynni tanlang",
+      errorPrefix: "Karta raqami 8600 yoki 9860 bilan boshlanishi kerak",
+      errorLength: "Karta raqami 16 ta raqamdan iborat bo'lishi kerak",
+      errorExpiry: "Amal qilish muddatini to'g'ri kiriting (OO/YY)",
+      errorCVV: "CVV 3 ta raqam bo'lishi kerak",
+      errorName: "Karta egasi ismini kiriting",
+      errorBalance: "Boshlang'ich balansni kiriting"
     }
   };
 
@@ -82,6 +95,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
   };
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorMessage("");
     const value = e.target.value.replace(/\s/g, "");
     if (value.length <= 16 && /^\d*$/.test(value)) {
       setCardNumber(formatCardNumber(value));
@@ -89,6 +103,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
   };
 
   const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorMessage("");
     let value = e.target.value.replace(/\D/g, "");
     if (value.length >= 2) {
       value = value.slice(0, 2) + "/" + value.slice(2, 4);
@@ -99,6 +114,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
   };
 
   const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorMessage("");
     const value = e.target.value;
     if (value.length <= 3 && /^\d*$/.test(value)) {
       setCvv(value);
@@ -118,23 +134,49 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
   };
 
   const handleSubmit = () => {
-    if (isValidCard()) {
-      onAddCard({
-        cardholder_name: cardholderName,
-        card_number: cardNumber.replace(/\s/g, ""),
-        expiry_date: expiryDate,
-        cvv: cvv,
-        balance: initialBalance,
-        color: selectedColor
-      });
-      // Reset form
-      setCardholderName("");
-      setCardNumber("");
-      setExpiryDate("");
-      setCvv("");
-      setInitialBalance("");
-      onClose();
+    const cleanNumber = cardNumber.replace(/\s/g, "");
+    
+    if (!cardholderName.trim()) {
+      setErrorMessage(content[language].errorName);
+      return;
     }
+    if (cleanNumber.length !== 16) {
+      setErrorMessage(content[language].errorLength);
+      return;
+    }
+    if (!cleanNumber.startsWith("8600") && !cleanNumber.startsWith("9860")) {
+      setErrorMessage(content[language].errorPrefix);
+      return;
+    }
+    if (expiryDate.length !== 5) {
+      setErrorMessage(content[language].errorExpiry);
+      return;
+    }
+    if (cvv.length !== 3) {
+      setErrorMessage(content[language].errorCVV);
+      return;
+    }
+    if (!initialBalance) {
+      setErrorMessage(content[language].errorBalance);
+      return;
+    }
+
+    setErrorMessage("");
+    onAddCard({
+      cardholder_name: cardholderName,
+      card_number: cleanNumber,
+      expiry_date: expiryDate,
+      cvv: cvv,
+      balance: initialBalance,
+      color: selectedColor
+    });
+    // Reset form
+    setCardholderName("");
+    setCardNumber("");
+    setExpiryDate("");
+    setCvv("");
+    setInitialBalance("");
+    onClose();
   };
 
   return (
@@ -232,7 +274,10 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                 <input
                   type="text"
                   value={cardholderName}
-                  onChange={(e) => setCardholderName(e.target.value)}
+                  onChange={(e) => {
+                    setCardholderName(e.target.value);
+                    setErrorMessage("");
+                  }}
                   placeholder={content[language].enterName}
                   className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors"
                   style={{
@@ -315,7 +360,10 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                   <input
                     type="number"
                     value={initialBalance}
-                    onChange={(e) => setInitialBalance(e.target.value)}
+                    onChange={(e) => {
+                      setInitialBalance(e.target.value);
+                      setErrorMessage("");
+                    }}
                     placeholder={content[language].enterBalance}
                     className="w-full px-4 py-3 rounded-2xl text-base outline-none transition-colors pr-12"
                     style={{
@@ -327,6 +375,20 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 font-medium" style={{ color: colors.textSecondary }}>som</span>
                 </div>
               </div>
+
+              {/* Error Message */}
+              <AnimatePresence>
+                {errorMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="bg-red-500/10 border border-red-500/20 rounded-2xl px-4 py-3"
+                  >
+                    <p className="text-red-500 text-sm font-medium">{errorMessage}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Buttons */}
               <div className="flex gap-3 pt-4 pb-8">
@@ -342,8 +404,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className="flex-1 py-4 rounded-full font-semibold text-base bg-[#7c3aed] text-white hover:bg-[#6d32d4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={!isValidCard()}
+                  className="flex-1 py-4 rounded-full font-semibold text-base bg-[#7c3aed] text-white hover:bg-[#6d32d4] transition-colors"
                 >
                   {content[language].add}
                 </button>
