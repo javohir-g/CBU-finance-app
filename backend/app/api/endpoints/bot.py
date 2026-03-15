@@ -22,17 +22,10 @@ async def start_handler(message: types.Message):
         "💳 Управляй картами\n"
         "📊 Отслеживай расходы\n"
         "📈 Планируй накопления\n\n"
-        "Нажми на кнопку ниже, чтобы открыть приложение!"
+        "Нажми кнопку **App** слева от клавиатуры, чтобы открыть приложение!"
     )
     
-    # Create the WebApp button
-    webapp_button = InlineKeyboardButton(
-        text="💰 Открыть CBU Finance", 
-        web_app=WebAppInfo(url=settings.WEBAPP_URL)
-    )
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[[webapp_button]])
-    
-    await message.answer(welcome_text, reply_markup=keyboard, parse_mode="Markdown")
+    await message.answer(welcome_text, parse_mode="Markdown")
 
 dp.include_router(bot_router)
 

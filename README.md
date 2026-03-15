@@ -19,6 +19,9 @@
 
 ## 🇷🇺 Russian
 
+> [!IMPORTANT]
+> **Бот доступен для теста:** [@CBU_financeapp_bot](https://t.me/CBU_financeapp_bot)
+
 ### 🌟 Визия
 **CBU Finance** — это финтех-решение нового поколения для рынка Узбекистана. Мы объединяем удобство Telegram Mini Apps с мощным функционалом банковского приложения, делая управление финансами легким, социальным и прозрачным.
 
@@ -62,6 +65,9 @@
 ---
 
 ## 🇺🇿 O'zbekcha
+
+> [!IMPORTANT]
+> **Test bot manzili:** [@CBU_financeapp_bot](https://t.me/CBU_financeapp_bot)
 
 ### 🌟 Viziya
 **CBU Finance** — O'zbekiston bozori uchun yangi avlod fintex yechimi. Biz Telegram Mini Apps qulayligini bank ilovasining kuchli funksionalligi bilan birlashtiramiz, bu esa moliyani boshqarishni oson, ijtimoiy va shaffof qiladi.
