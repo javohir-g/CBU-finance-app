@@ -226,7 +226,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                     {cardType === "humo" && <img src={imgHumo} alt="Humo" className="h-full object-contain drop-shadow-md" />}
                   </div>
                 </div>
-                <div className="text-white text-xl font-medium tracking-[0.2em] relative z-10 drop-shadow-md">
+                <div className="text-white text-[5.5vw] xs:text-xl font-medium tracking-[0.15em] relative z-10 drop-shadow-md whitespace-nowrap overflow-hidden text-ellipsis">
                   {cardNumber || "0000 0000 0000 0000"}
                 </div>
                 <div className="flex justify-between items-end relative z-10">
@@ -241,7 +241,7 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                 <label className="block text-sm font-semibold mb-3" style={{ color: colors.text }}>
                   {content[language].chooseDesign}
                 </label>
-                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+                <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none px-1">
                   {cardDesigns.map(design => (
                     <button
                       key={design.color}
@@ -249,15 +249,17 @@ export function AddCardDrawer({ isOpen, onClose, onAddCard }: AddCardDrawerProps
                         setSelectedColor(design.color);
                         setSelectedBg(design.bg);
                       }}
-                      className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center border-2 transition-all active:scale-95 overflow-hidden"
+                      className="w-20 h-14 rounded-xl flex-shrink-0 relative overflow-hidden transition-all active:scale-95 shadow-lg border-2"
                       style={{ 
-                        borderColor: selectedColor === design.color ? colors.primary : 'transparent'
+                        borderColor: selectedColor === design.color ? '#7c3aed' : 'transparent'
                       }}
                     >
                       <img src={design.bg} alt="design" className="w-full h-full object-cover" />
                       {selectedColor === design.color && (
-                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                          <IconCheck size={18} className="text-white" />
+                        <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                          <div className="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                             <IconCheck size={14} className="text-white" />
+                          </div>
                         </div>
                       )}
                     </button>
