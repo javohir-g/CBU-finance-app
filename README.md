@@ -192,5 +192,5 @@ Biz vazifada ko'rsatilgan talablarning 100% qismini bajardik:
 <div align="center">
   <h3>🏆 Сделано для инноваций. Сделано для пользователей.</h3>
   <h3>🏆 Innovatsiyalar uchun. Foydalanuvchilar uchun.</h3>
-  <p>© 2025 Profound Vision Team</p>
+  <p>© 2026 Profound Vision Team</p>
 </div>
