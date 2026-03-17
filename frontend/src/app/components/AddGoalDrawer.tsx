@@ -172,7 +172,7 @@ export function AddGoalDrawer({ isOpen, onClose, onAddGoal }: AddGoalDrawerProps
                       border: `1px solid ${colors.border}`
                     }}
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-semibold" style={{ color: colors.textSecondary }}>som</span>
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-semibold" style={{ color: colors.textSecondary }}>so'm</span>
                 </div>
               </div>
 

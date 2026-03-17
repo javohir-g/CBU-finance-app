@@ -273,7 +273,7 @@ export function AddTransactionDrawer({ isOpen, onClose, onSuccess, type }: AddTr
                             <p className="text-xs" style={{ color: colors.textSecondary }}>•••• {card.number}</p>
                           </div>
                         </div>
-                        <p className="font-bold text-base" style={{ color: colors.text }}>{card.balance.toLocaleString()} som</p>
+                        <p className="font-bold text-base" style={{ color: colors.text }}>{card.balance.toLocaleString()} so'm</p>
                       </motion.button>
                     ))
                   ) : (

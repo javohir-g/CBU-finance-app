@@ -153,7 +153,7 @@ export default function Transfer() {
                 </div>
                 <div>
                    <p className="text-xs text-white/80">{language === 'rus' ? 'Баланс' : 'Balans'}</p>
-                   <p className="text-xl font-bold text-white">{card.balance.toLocaleString()} som</p>
+                   <p className="text-xl font-bold text-white">{card.balance.toLocaleString()} so'm</p>
                 </div>
                 {/* Background Overlay for better UI */}
                 <div className="absolute inset-0 z-[-1] opacity-20" style={{ backgroundColor: card.color || '#7c3aed' }} />

@@ -27,6 +27,7 @@ def create_goal(
         name=goal_in.name,
         target_amount=goal_in.target_amount,
         saved_amount=0.0,
+        currency=goal_in.currency or "so'm",
         icon=goal_in.icon,
         color=goal_in.color,
         deadline=goal_in.deadline,

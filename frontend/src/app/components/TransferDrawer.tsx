@@ -187,7 +187,7 @@ export function TransferDrawer({ isOpen, onClose, onSuccess }: TransferDrawerPro
                   className="w-full bg-transparent text-5xl font-bold text-center outline-none"
                   style={{ color: colors.text }}
                 />
-                <p className="mt-2 font-medium" style={{ color: colors.textSecondary }}>som</p>
+                <p className="mt-2 font-medium" style={{ color: colors.textSecondary }}>so'm</p>
               </div>
 
               {/* From Card */}
@@ -205,7 +205,7 @@ export function TransferDrawer({ isOpen, onClose, onSuccess }: TransferDrawerPro
                     >
                       <div className="flex justify-between items-start mb-4">
                         <img src={getCardLogo(card.number)} alt="" className="h-6" />
-                        <span className="text-white font-bold text-xs">{card.balance.toLocaleString()} som</span>
+                        <span className="text-white font-bold text-xs">{card.balance.toLocaleString()} so'm</span>
                       </div>
                       <p className="text-white font-medium text-sm">•••• {card.number}</p>
                     </button>
@@ -230,7 +230,7 @@ export function TransferDrawer({ isOpen, onClose, onSuccess }: TransferDrawerPro
                         >
                           <div className="flex justify-between items-start mb-4">
                             <img src={getCardLogo(card.number)} alt="" className="h-6" />
-                            <span className="text-white font-bold text-xs">{card.balance.toLocaleString()} som</span>
+                            <span className="text-white font-bold text-xs">{card.balance.toLocaleString()} so'm</span>
                           </div>
                           <p className="text-white font-medium text-sm">•••• {card.number}</p>
                         </button>

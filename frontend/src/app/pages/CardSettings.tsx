@@ -207,7 +207,7 @@ export default function CardSettings() {
                     <div>
                       <p className="text-white/90 text-xs font-medium mb-1.5">{content[language].availableBalance}</p>
                       <p className="text-white text-3xl font-bold tracking-tight drop-shadow-lg">
-                        {card.balance.toLocaleString()} som
+                        {card.balance.toLocaleString()} so'm
                       </p>
                     </div>
                     <div className="w-12 h-12 flex-shrink-0">
@@ -270,7 +270,7 @@ export default function CardSettings() {
                   <div>
                     <p className="text-white/90 text-xs font-medium mb-1.5">{content[language].availableBalance}</p>
                     <p className="text-white text-3xl font-bold tracking-tight drop-shadow-lg">
-                      {selectedCardData?.balance.toLocaleString()} som
+                      {selectedCardData?.balance.toLocaleString()} so'm
                     </p>
                   </div>
                   <div className="w-12 h-12 flex-shrink-0">

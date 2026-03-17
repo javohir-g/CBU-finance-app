@@ -209,7 +209,7 @@ export default function Dashboard() {
 
             <div className="flex items-center justify-center gap-3">
               <p className="text-white text-4xl font-bold tracking-tight">
-                {showBalance ? `${balance.toLocaleString('ru-RU')} som` : '••••••'}
+                {showBalance ? `${balance.toLocaleString('ru-RU')} so'm` : '••••••'}
               </p>
               <button
                 onClick={() => setShowBalance(!showBalance)}
@@ -347,7 +347,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center gap-2.5">
                     <p className="font-bold text-base" style={{ color: colors.text }}>
-                      {transaction.amount.toLocaleString()} {transaction.currency === "UZS" ? "som" : transaction.currency}
+                      {transaction.amount.toLocaleString()} {transaction.currency === "UZS" || transaction.currency === "so'm" ? "so'm" : transaction.currency}
                     </p>
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center ${transaction.type === 'received'

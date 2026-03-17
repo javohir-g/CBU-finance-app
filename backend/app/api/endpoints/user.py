@@ -45,4 +45,4 @@ def update_profile(
 def get_balance(current_user: User = Depends(get_current_user)):
     # Calculate total balance from all cards
     total = sum(card.balance for card in current_user.cards)
-    return UserBalance(totalBalance=total, currency="USD")
+    return UserBalance(totalBalance=total, currency="so'm")

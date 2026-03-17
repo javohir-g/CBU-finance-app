@@ -44,6 +44,7 @@ class Card(Base):
     color = Column(String, nullable=True)
     card_bg = Column(String, nullable=True)
     card_type = Column(String) # visa, mastercard, uzcard, humo
+    expiry_date = Column(String, nullable=True)
     is_locked = Column(Boolean, default=False)
     is_deactivated = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -77,6 +78,7 @@ class SavingsGoal(Base):
     name = Column(String)
     target_amount = Column(Float)
     saved_amount = Column(Float, default=0.0)
+    currency = Column(String, default="so'm")
     icon = Column(String)
     color = Column(String)
     deadline = Column(DateTime, nullable=True)

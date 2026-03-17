@@ -43,6 +43,7 @@ def create_card(
         balance=card_in.balance or 0.0,
         currency="UZS",
         card_type=card_type,
+        expiry_date=card_in.expiry_date,
         color=card_in.color or "#7c3aed",
         card_bg=card_in.card_bg
     )

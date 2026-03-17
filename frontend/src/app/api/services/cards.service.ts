@@ -12,10 +12,10 @@ export interface Card {
     user_id: number;
     name: string;
     number: string;
-    expiry: string;
+    expiry_date?: string;
     type: CardType;
     balance: number;
-    currency: "USD" | "UZS";
+    currency: "USD" | "UZS" | "so'm";
     status: CardStatus;
     is_main: boolean;
     color?: string;
@@ -38,7 +38,9 @@ export const cardsService = {
             ...c,
             name: c.cardholder_name || "Card",
             number: c.card_number || "0000",
+            expiry_date: c.expiry_date || "",
             type: c.card_type || "visa",
+            currency: c.currency || "so'm",
             status: c.is_locked ? "locked" : c.is_deactivated ? "deactivated" : "active"
         }));
         return { cards, total: response.data.total || 0 };
@@ -54,7 +56,9 @@ export const cardsService = {
             ...c,
             name: c.cardholder_name || "Card",
             number: c.card_number || "0000",
+            expiry_date: c.expiry_date || "",
             type: c.card_type || "visa",
+            currency: c.currency || "so'm",
             status: c.is_locked ? "locked" : c.is_deactivated ? "deactivated" : "active"
         };
     },

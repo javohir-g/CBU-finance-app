@@ -145,27 +145,27 @@ export default function Savings() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-xl" style={{ color: colors.text }}>{goal.saved_amount.toLocaleString()} som</p>
-                      <p className="text-xs" style={{ color: colors.textSecondary }}>{content[language].saved}</p>
-                    </div>
+                    <p className="font-bold text-xl" style={{ color: colors.text }}>{goal.saved_amount.toLocaleString()} so'm</p>
+                    <p className="text-xs" style={{ color: colors.textSecondary }}>{content[language].saved}</p>
                   </div>
+                </div>
 
-                  <div className="mb-3">
-                    <div className="w-full h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: colors.background }}>
-                      <motion.div
-                        className="h-full rounded-full"
-                        style={{ backgroundColor: goal.color || "#7c3aed" }}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(100, progress)}%` }}
-                        transition={{ duration: 1, delay: 0.3 + index * 0.1, ease: "easeOut" }}
-                      />
-                    </div>
+                <div className="mb-3">
+                  <div className="w-full h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: colors.background }}>
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{ backgroundColor: goal.color || "#7c3aed" }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.min(100, progress)}%` }}
+                      transition={{ duration: 1, delay: 0.3 + index * 0.1, ease: "easeOut" }}
+                    />
                   </div>
+                </div>
 
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm" style={{ color: colors.textSecondary }}>{content[language].goal}</p>
-                    <p className="text-sm font-semibold" style={{ color: colors.textSecondary }}>{goal.target_amount.toLocaleString()} som</p>
-                  </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm" style={{ color: colors.textSecondary }}>{content[language].goal}</p>
+                  <p className="text-sm font-semibold" style={{ color: colors.textSecondary }}>{goal.target_amount.toLocaleString()} so'm</p>
+                </div>
                 </motion.div>
               );
             })

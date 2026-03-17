@@ -136,7 +136,7 @@ export function TopUpGoalDrawer({ isOpen, onClose, onSuccess, goalId, goalName }
                     className="w-full text-4xl font-bold bg-transparent border-b-2 outline-none pb-2 text-center"
                     style={{ color: colors.text, borderColor: colors.border }}
                   />
-                  <span className="absolute right-0 bottom-2 text-lg font-medium" style={{ color: colors.textSecondary }}>som</span>
+                  <span className="absolute right-0 bottom-2 text-lg font-medium" style={{ color: colors.textSecondary }}>so'm</span>
                 </div>
               </div>
 
@@ -165,7 +165,7 @@ export function TopUpGoalDrawer({ isOpen, onClose, onSuccess, goalId, goalName }
                             <p className="text-xs" style={{ color: colors.textSecondary }}>•••• {card.number}</p>
                         </div>
                       </div>
-                      <p className="text-sm font-bold" style={{ color: colors.text }}>{card.balance.toLocaleString()} som</p>
+                      <p className="text-sm font-bold" style={{ color: colors.text }}>{card.balance.toLocaleString()} so'm</p>
                     </button>
                   ))}
                 </div>

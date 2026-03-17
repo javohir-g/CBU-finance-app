@@ -53,6 +53,7 @@ class CardBase(BaseModel):
     balance: float = 0.0
     currency: str = "UZS"
     card_type: str
+    expiry_date: Optional[str] = None
     color: Optional[str] = None
     card_bg: Optional[str] = None
 
