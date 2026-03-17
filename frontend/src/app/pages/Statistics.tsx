@@ -5,7 +5,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { statisticsService, CategoryStat } from "../api/services/statistics.service";
 import { BottomNav } from "../components/BottomNav";
-import { IconPlus, IconMinus, IconShoppingCart, IconHome, IconCar, IconDevices, IconCoffee, IconBriefcase, IconGift, IconArrowLeft, IconCalendar, IconChevronDown, IconX, IconChartPie } from "@tabler/icons-react";
+import { IconPlus, IconMinus, IconShoppingCart, IconHome, IconCar, IconDevices, IconCoffee, IconBriefcase, IconGift, IconArrowLeft, IconCalendar, IconChevronDown, IconX, IconChartPie, IconSparkles } from "@tabler/icons-react";
 
 export default function Statistics() {
   const navigate = useNavigate();
@@ -76,6 +76,7 @@ export default function Statistics() {
   const [filterCategory, setFilterCategory] = useState<"all" | "income" | "expense">(location.state?.filterCategory || "all");
   const [dateFilter, setDateFilter] = useState<"all" | "today" | "week" | "month" | "year">(location.state?.dateFilter || "month");
   const [isDateFilterOpen, setIsDateFilterOpen] = useState(false);
+  const [isAIOpen, setIsAIOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [totalIncome, setTotalIncome] = useState(0);
@@ -140,7 +141,13 @@ export default function Statistics() {
           <IconArrowLeft size={22} style={{ color: colors.text }} />
         </button>
         <h1 className="text-xl font-semibold" style={{ color: colors.text }}>{content[language].title}</h1>
-        <div className="w-11" />
+        <button
+          onClick={() => setIsAIOpen(true)}
+          className="w-11 h-11 rounded-full flex items-center justify-center transition-all active:scale-95"
+          style={{ backgroundColor: colors.cardBackground }}
+        >
+          <IconSparkles size={22} style={{ color: "#7c3aed" }} />
+        </button>
       </motion.div>
 
       {/* Filter Tabs */}
@@ -460,6 +467,67 @@ export default function Statistics() {
                   </button>
                 ))}
               </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* AI Coming Soon Modal */}
+      {isAIOpen && (
+        <motion.div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsAIOpen(false)}
+          />
+
+          {/* Modal Content */}
+          <motion.div
+            className="relative w-full max-w-sm rounded-[32px] p-8 text-center overflow-hidden"
+            style={{ backgroundColor: colors.background }}
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          >
+            {/* Decorative Orbs */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#7c3aed]/10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[#7c3aed]/10 rounded-full blur-3xl" />
+
+            <div className="relative">
+              <div 
+                className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-[#7c3aed]/20"
+                style={{ backgroundColor: "#7c3aed" }}
+              >
+                <IconSparkles size={40} className="text-white" />
+              </div>
+
+              <h2 className="text-2xl font-bold mb-3" style={{ color: colors.text }}>
+                AI Интеллект
+              </h2>
+
+              <div className="bg-[#7c3aed]/10 px-4 py-1.5 rounded-full inline-block mb-6">
+                <span className="text-[#7c3aed] text-xs font-bold uppercase tracking-widest">
+                  {language === "rus" ? "Скоро появится" : "Tez orada"}
+                </span>
+              </div>
+
+              <p className="text-base leading-relaxed mb-8" style={{ color: colors.textSecondary }}>
+                {language === "rus" 
+                  ? "Эта страница и функции AI-аналитики скоро будут активны. Мы работаем над умными советами для вашего бюджета!" 
+                  : "Ushbu sahifa va AI tahlil funksiyalari tez orada faol bo'ladi. Budjetingiz uchun aqlli maslahatlar ustida ishlayapmiz!"}
+              </p>
+
+              <button
+                onClick={() => setIsAIOpen(false)}
+                className="w-full py-4 bg-[#7c3aed] text-white rounded-2xl font-semibold shadow-xl shadow-[#7c3aed]/20 transition-all active:scale-95"
+              >
+                {language === "rus" ? "Понятно" : "Tushunarli"}
+              </button>
             </div>
           </motion.div>
         </motion.div>
