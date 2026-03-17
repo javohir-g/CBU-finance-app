@@ -8,12 +8,12 @@ from app.api.endpoints.user import get_current_user
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("")
 def get_cards(current_user: User = Depends(get_current_user)):
     cards = current_user.cards
     return {"cards": cards, "total": len(cards)}
 
-@router.post("/", response_model=CardRead)
+@router.post("", response_model=CardRead)
 def create_card(
     card_in: CardCreate,
     current_user: User = Depends(get_current_user),
@@ -65,3 +65,20 @@ def delete_card(
     db.delete(card)
     db.commit()
     return {"success": True}
+
+@router.patch("/{card_id}/lock")
+def toggle_lock_card(
+    card_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    card = db.query(Card).filter(Card.id == card_id, Card.user_id == current_user.id).first()
+    if not card:
+        raise HTTPException(status_code=404, detail="Card not found")
+    
+    card.is_locked = not card.is_locked
+    db.commit()
+    db.refresh(card)
+    
+    status_str = "locked" if card.is_locked else "active"
+    return {"success": True, "status": status_str}

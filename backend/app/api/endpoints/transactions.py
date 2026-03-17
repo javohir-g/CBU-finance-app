@@ -8,7 +8,7 @@ from app.api.endpoints.user import get_current_user
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("")
 def get_transactions(
     category: Optional[str] = "all",
     date_filter: Optional[str] = "all",
@@ -31,7 +31,7 @@ def get_transactions(
         "has_more": (offset + limit) < total
     }
 
-@router.post("/", response_model=TransactionRead)
+@router.post("", response_model=TransactionRead)
 def create_transaction(
     trans_in: TransactionCreate,
     current_user: User = Depends(get_current_user),
